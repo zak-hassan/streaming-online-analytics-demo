@@ -1,0 +1,6 @@
+messaging-service/.idea
+messaging-service/target
+spark-streaming-service/.idea
+spark-streaming-service/target
+.idea/*
+
