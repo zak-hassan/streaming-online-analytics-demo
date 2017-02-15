@@ -4,30 +4,49 @@ package com.example.camel;
  * Created by zhassan on 14/02/17.
  */
 public class Order {
-    private int id;
-    private String name;
 
-    public Order() {
+    String productName;
+    String productPrice;
+    String productCategory;
+    String productQuantity;
+
+    public Order(String productName, String productPrice, String productCategory, String productQuantity) {
+        this.productName = productName;
+        this.productPrice = productPrice;
+        this.productCategory = productCategory;
+        this.productQuantity = productQuantity;
     }
 
-    public Order(int id, String name) {
-        this.id = id;
-        this.name = name;
+    public String getProductName() {
+        return productName;
     }
 
-    public int getId() {
-        return id;
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public String getProductPrice() {
+        return productPrice;
     }
 
-    public String getName() {
-        return name;
+    public void setProductPrice(String productPrice) {
+        this.productPrice = productPrice;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getProductCategory() {
+        return productCategory;
     }
+
+    public void setProductCategory(String productCategory) {
+        this.productCategory = productCategory;
+    }
+
+    public String getProductQuantity() {
+        return productQuantity;
+    }
+
+    public void setProductQuantity(String productQuantity) {
+        this.productQuantity = productQuantity;
+    }
+
 }
