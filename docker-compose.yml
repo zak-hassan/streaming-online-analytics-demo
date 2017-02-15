@@ -6,6 +6,8 @@ services:
     container_name: mongo
     volumes:
       - /data/db:/data/db
+    ports:
+      - "27017:27017"
   zookeeper:
     image: bzcareer/docker-zookeeper
     container_name: zookeeper-coordination-service
