@@ -9,6 +9,10 @@ services:
   zookeeper:
     image: bzcareer/docker-zookeeper
     container_name: zookeeper-coordination-service
+    ports:
+      - "2181:2181"
+      - "2888:2888"
+      - "3888:3888"
   kakfa:
     image: bzcareer/docker-kafka
     container_name: kakfa-messaging-service
@@ -16,3 +20,11 @@ services:
       - zookeeper:zookeeper
     environment:
       - "KAFKA_SERVICE_SERVICE_HOST=zookeeper"
+    ports:
+      - "9092:9092"
+  s3:
+    image: minio/minio
+    container_name: s3storage
+    command: server /export
+    ports:
+      - "9000:9000"
