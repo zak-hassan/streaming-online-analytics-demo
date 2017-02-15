@@ -32,6 +32,14 @@
             <artifactId>camel-jackson</artifactId>
             <version>${camel.version}</version>
         </dependency>
+
+        <!-- MongoDB -->
+        <dependency>
+            <groupId>org.mongojack</groupId>
+            <artifactId>mongojack</artifactId>
+            <version>2.6.1</version>
+        </dependency>
+
     </dependencies>
     <build>
         <!-- to run with mvn camel:run -->

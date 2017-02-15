@@ -1,5 +1,9 @@
-package com.example.camel;
+package com.radanalyticsio.camel;
 
+
+import com.mongodb.DBCollection;
+
+import org.mongojack.JacksonDBCollection;
 
 import java.util.Collection;
 import java.util.Map;
@@ -26,8 +30,12 @@ public class OrderService {
         return Orders.values();
     }
 
-    public Order createOrder(Order Order) {
+    public Order createOrder(Order order) {
         //TODO: Place holder need to add mongodb persistence here..
-        return new Order("Kitchen Table", 45.99, 1, 1);
+
+        DBCollection c = MongoDBService.connectFromEnv();
+        JacksonDBCollection<Order, String> coll = MongoDBService.persist(c, order);
+
+        return order;
     }
 }

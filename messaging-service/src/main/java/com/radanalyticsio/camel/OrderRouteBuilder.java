@@ -1,4 +1,4 @@
-package com.example.camel;
+package com.radanalyticsio.camel;
 
 import org.apache.camel.model.rest.RestBindingMode;
 import org.apache.camel.builder.RouteBuilder;
@@ -17,7 +17,7 @@ public class OrderRouteBuilder extends RouteBuilder {
                 .to("bean:orderService?method=getOrder(${header.id})")
                 .get("/list").outTypeList(Order.class)
                 .to("bean:orderService?method=listOrders")
-                .put("/create").type(Order.class).outType(Order.class)
+                .post("/create").type(Order.class).outType(Order.class)
                 .to("bean:orderService?method=createOrder");
     }
 }
