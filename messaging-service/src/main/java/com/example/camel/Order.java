@@ -6,11 +6,12 @@ package com.example.camel;
 public class Order {
 
     String productName;
-    String productPrice;
-    String productCategory;
-    String productQuantity;
+    double productPrice;
+    int productCategory;
+    int productQuantity;
 
-    public Order(String productName, String productPrice, String productCategory, String productQuantity) {
+
+    public Order(String productName, double productPrice, int productCategory, int productQuantity) {
         this.productName = productName;
         this.productPrice = productPrice;
         this.productCategory = productCategory;
@@ -25,28 +26,27 @@ public class Order {
         this.productName = productName;
     }
 
-    public String getProductPrice() {
+    public double getProductPrice() {
         return productPrice;
     }
 
-    public void setProductPrice(String productPrice) {
+    public void setProductPrice(double productPrice) {
         this.productPrice = productPrice;
     }
 
-    public String getProductCategory() {
+    public int getProductCategory() {
         return productCategory;
     }
 
-    public void setProductCategory(String productCategory) {
+    public void setProductCategory(int productCategory) {
         this.productCategory = productCategory;
     }
 
-    public String getProductQuantity() {
+    public int getProductQuantity() {
         return productQuantity;
     }
 
-    public void setProductQuantity(String productQuantity) {
+    public void setProductQuantity(int productQuantity) {
         this.productQuantity = productQuantity;
     }
-
 }

@@ -17,7 +17,7 @@ public class OrderRouteBuilder extends RouteBuilder {
                 .to("bean:orderService?method=getOrder(${header.id})")
                 .get("/list").outTypeList(Order.class)
                 .to("bean:orderService?method=listOrders")
-                .put("/update").type(Order.class).outType(Order.class)
-                .to("bean:orderService?method=updateOrder");
+                .put("/create").type(Order.class).outType(Order.class)
+                .to("bean:orderService?method=createOrder");
     }
 }
