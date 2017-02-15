@@ -1,0 +1,18 @@
+version: '2'
+
+services:
+  mongo:
+    image: mongo
+    container_name: mongo
+    volumes:
+      - /data/db:/data/db
+  zookeeper:
+    image: bzcareer/docker-zookeeper
+    container_name: zookeeper-coordination-service
+  kakfa:
+    image: bzcareer/docker-kafka
+    container_name: kakfa-messaging-service
+    links:
+      - zookeeper:zookeeper
+    environment:
+      - "KAFKA_SERVICE_SERVICE_HOST=zookeeper"
