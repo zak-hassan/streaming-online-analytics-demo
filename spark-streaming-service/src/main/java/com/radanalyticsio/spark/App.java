@@ -1,4 +1,4 @@
-package com.example.spark;
+package com.radanalyticsio.spark;
 
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.spark.SparkConf;
@@ -27,7 +27,7 @@ public class App {
 
     public static void main(String[] args) throws Exception {
         // Setting up kafka
-        String kafkaURL= "localhost:9092"
+        String kafkaURL= "localhost:9092";
         String env_uri=System.getenv("KAFKA_URI");
         //  int env_port=System.getenv("MONGODB_PORT");
         if(env_uri !=null )
@@ -41,10 +41,10 @@ public class App {
         kafkaParams.put("auto.offset.reset", "latest");
         kafkaParams.put("enable.auto.commit", false);
         Map<String, Integer> topicMap = new HashMap<>();
-        topicMap.put("test", 2);
-        topicMap.put("zak", 2);
+        topicMap.put("topicA", 2);
+        topicMap.put("topicB", 2);
 //      Collection<String> topics = Arrays.asList("test", "zak");
-        SparkConf conf = new SparkConf().setMaster("local[2]").setAppName("orderPurchaseService");
+        SparkConf conf = new SparkConf().setAppName("orderPurchaseService");
         JavaStreamingContext streamingContext = new JavaStreamingContext(conf, Durations.seconds(1));
         JavaPairReceiverInputDStream<String, String> messages = KafkaUtils.createStream(streamingContext, "localhost:2181", "1", topicMap);
         JavaDStream<String> lines = messages.map(new Function<Tuple2<String, String>, String>() {

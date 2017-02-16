@@ -12,7 +12,7 @@
     <name>Streaming Online Analytics :: Order Analytics Service</name>
 
     <properties>
-        <app.main.class>com.example.spark.App</app.main.class>
+        <app.main.class>com.radanalyticsio.spark.App</app.main.class>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spark.core.version>2.1.0</spark.core.version>
         <scala.version>2.11</scala.version>

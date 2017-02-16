@@ -7,4 +7,4 @@
  * decided before hand.
  */
 
-package com.example.spark;
+package com.radanalyticsio.spark;
