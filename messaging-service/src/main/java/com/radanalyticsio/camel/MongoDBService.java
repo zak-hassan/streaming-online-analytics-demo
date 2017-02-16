@@ -28,15 +28,20 @@ public class MongoDBService {
 
     public static DBCollection connectFromEnv() {
         String mongoURL= "localhost";
+        int port=27017;
         try{
-            String uri=System.getenv("MONGODB_URI");
-            if(uri !=null )
-                mongoURL=uri;
+            String env_uri=System.getenv("MONGODB_HOST");
+          //  int env_port=System.getenv("MONGODB_PORT");
+            if(env_uri !=null )
+                mongoURL=env_uri;
+//            if(env_port !=null)
+//                port=env_port;
+
         }catch(Exception ex){
             System.out.println("MONGODB_URI not set using default localhost");
         }
         System.out.println(mongoURL);
-        MongoClient client = new MongoClient( mongoURL , 27017 );
+        MongoClient client = new MongoClient( mongoURL , port );
         DB database = client.getDB( "onlinestore" );
         return database.getCollection("orders");
     }
