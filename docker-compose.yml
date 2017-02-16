@@ -17,13 +17,14 @@ services:
       - "3888:3888"
   kafka:
     image: bzcareer/docker-kafka
-    container_name: kakfa-messaging-service
+    container_name: kafka-messaging-service
     links:
       - zookeeper:zookeeper
     environment:
       - "KAFKA_SERVICE_SERVICE_HOST=zookeeper"
     ports:
       - "9092:9092"
+      - "9999:9999"
   s3:
     image: minio/minio
     container_name: s3storage
@@ -55,8 +56,9 @@ services:
       - "8080:8080"
     links:
       - mongo:mongo
-      - kafka:kafka
+      - kafka:kafkaETL
     environment:
+      - "KAFKA_URI=kafkaETL:9092"
       - "MONGODB_HOST=mongo"
       - "MONGODB_PORT=27017"
   spark-streaming-service:
@@ -66,6 +68,9 @@ services:
     ports:
       - "4040:4040"
     links:
-      - kafka:kafka
+      - kafka:kafkabroker
+      - sparkMaster:sparkMasterURL
     environment:
-      - "KAFKA_URI=kafka:9092"
+      - "KAFKA_URI=kafkabroker:9092"
+      - "SPARK_MASTER_URL=spark://sparkMasterURL:7077"
+      - "SPARK_USER=bob"

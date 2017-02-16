@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 
 BASEDIR=$(dirname "$0")
 SPARK_HOME=/opt/spark
@@ -12,4 +13,4 @@ export NSS_WRAPPER_GROUP=/etc/group
 
 export LD_PRELOAD=libnss_wrapper.so
 
-$SPARK_HOME/bin/spark-submit  --master  $SPARK_MASTER_URL --class com.radanalyticsio.spark.App $BASEDIR/target/spark-streaming-service-1.0-SNAPSHOT-jar-with-dependencies.jar
+$SPARK_HOME/bin/spark-submit  --master  $SPARK_MASTER_URL --class com.radanalyticsio.spark.App /opt/spark-streaming-service-1.0-SNAPSHOT-jar-with-dependencies.jar
