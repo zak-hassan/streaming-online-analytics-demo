@@ -27,29 +27,26 @@ public class App {
 
     public static void main(String[] args) throws Exception {
         // Setting up kafka
+        String kafkaURL= "localhost:9092"
+        String env_uri=System.getenv("KAFKA_URI");
+        //  int env_port=System.getenv("MONGODB_PORT");
+        if(env_uri !=null )
+            kafkaURL=env_uri;
 
         Map<String, Object> kafkaParams = new HashMap<>();
-        kafkaParams.put("bootstrap.servers", "localhost:9092");
+        kafkaParams.put("bootstrap.servers", kafkaURL);
         kafkaParams.put("key.deserializer", StringDeserializer.class);
         kafkaParams.put("value.deserializer", StringDeserializer.class);
         kafkaParams.put("group.id", "use_a_separate_group_id_for_each_stream");
         kafkaParams.put("auto.offset.reset", "latest");
         kafkaParams.put("enable.auto.commit", false);
         Map<String, Integer> topicMap = new HashMap<>();
-
         topicMap.put("test", 2);
         topicMap.put("zak", 2);
-//        Collection<String> topics = Arrays.asList("test", "zak");
-
-
+//      Collection<String> topics = Arrays.asList("test", "zak");
         SparkConf conf = new SparkConf().setMaster("local[2]").setAppName("orderPurchaseService");
-
         JavaStreamingContext streamingContext = new JavaStreamingContext(conf, Durations.seconds(1));
-
-
         JavaPairReceiverInputDStream<String, String> messages = KafkaUtils.createStream(streamingContext, "localhost:2181", "1", topicMap);
-
-
         JavaDStream<String> lines = messages.map(new Function<Tuple2<String, String>, String>() {
             @Override
             public String call(Tuple2<String, String> tuple2) {
@@ -62,8 +59,6 @@ public class App {
                 return Arrays.asList(SPACE.split(x)).iterator();
             }
         });
-
-
         JavaPairDStream<String, Integer> wordCounts = words.mapToPair(
                 new PairFunction<String, String, Integer>() {
                     @Override
@@ -76,7 +71,6 @@ public class App {
                 return i1 + i2;
             }
         });
-
         wordCounts.print();
         streamingContext.start();
         streamingContext.awaitTermination();

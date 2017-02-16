@@ -55,16 +55,17 @@ services:
       - "8080:8080"
     links:
       - mongo:mongo
+      - kafka:kafka
     environment:
       - "MONGODB_HOST=mongo"
       - "MONGODB_PORT=27017"
-  # spark-streaming-service:
-  #   build:
-  #     context: spark-streaming-service
-  #     dockerfile: Dockerfile
-  #   ports:
-  #     - "4040:4040"
-  #   links:
-  #     - kafka:kafka
-  #   environment:
-  #     - "KAFKA_URI=kakfa:9092"
+  spark-streaming-service:
+    build:
+      context: spark-streaming-service
+      dockerfile: Dockerfile
+    ports:
+      - "4040:4040"
+    links:
+      - kafka:kafka
+    environment:
+      - "KAFKA_URI=kakfa:9092"
