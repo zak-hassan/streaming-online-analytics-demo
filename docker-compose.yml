@@ -15,7 +15,7 @@ services:
       - "2181:2181"
       - "2888:2888"
       - "3888:3888"
-  kakfa:
+  kafka:
     image: bzcareer/docker-kafka
     container_name: kakfa-messaging-service
     links:
@@ -68,4 +68,4 @@ services:
     links:
       - kafka:kafka
     environment:
-      - "KAFKA_URI=kakfa:9092"
+      - "KAFKA_URI=kafka:9092"
