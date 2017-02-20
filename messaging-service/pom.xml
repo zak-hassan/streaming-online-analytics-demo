@@ -40,6 +40,13 @@
             <version>2.6.1</version>
         </dependency>
 
+        <!-- Kafka utils messaging -->
+        <dependency>
+            <groupId>com.radanalyticsio.datapipeline</groupId>
+            <artifactId>kafka-utils</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+
     </dependencies>
     <build>
         <!-- to run with mvn camel:run -->

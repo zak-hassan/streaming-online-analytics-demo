@@ -6,8 +6,8 @@ services:
     container_name: mongo
     volumes:
       - /data/db:/data/db
-    ports:
-      - "27017:27017"
+#    ports:
+#      - "27017:27017"
   zookeeper:
     image: bzcareer/docker-zookeeper
     container_name: zookeeper-coordination-service
@@ -74,3 +74,13 @@ services:
       - "KAFKA_URI=kafkabroker:9092"
       - "SPARK_MASTER_URL=spark://sparkMasterURL:7077"
       - "SPARK_USER=bob"
+  prometheus-metrics:
+    container_name: prometheus-metrics
+    build:
+      context: metrics
+      dockerfile: Dockerfile
+    ports:
+      - "9090:9090"
+    links:
+      - kafka:kafkabrokerMetrics
+      - sparkMaster:sparkMasterMetrics
