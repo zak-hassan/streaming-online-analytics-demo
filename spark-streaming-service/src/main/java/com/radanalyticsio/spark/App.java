@@ -42,10 +42,10 @@ public class App {
         kafkaParams.put("enable.auto.commit", false);
         Map<String, Integer> topicMap = new HashMap<>();
         topicMap.put("topicA", 2);
-        topicMap.put("topicB", 2);
+//        topicMap.put("topicB", 2);
 //      Collection<String> topics = Arrays.asList("test", "zak");
         SparkConf conf = new SparkConf().setAppName("orderPurchaseService");
-        JavaStreamingContext streamingContext = new JavaStreamingContext(conf, Durations.seconds(1));
+        JavaStreamingContext streamingContext = new JavaStreamingContext(conf, Durations.seconds(10));
         JavaPairReceiverInputDStream<String, String> messages = KafkaUtils.createStream(streamingContext, "localhost:2181", "1", topicMap);
         JavaDStream<String> lines = messages.map(new Function<Tuple2<String, String>, String>() {
             @Override
