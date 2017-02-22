@@ -6,9 +6,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.DBCollection;
 import com.redhat.analytics.producer.KafkaMessenger;
 
+import org.mongojack.DBQuery;
 import org.mongojack.JacksonDBCollection;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.ExecutionException;
@@ -27,12 +30,23 @@ public class OrderService {
     }
 
     public Order getOrder(String id) {
-        return Orders.get(id);
+
+        DBCollection c = MongoDBService.connectFromEnv();
+        JacksonDBCollection<Order, String> col = JacksonDBCollection.wrap(c, Order.class,
+                String.class);
+        Order rtnOrder= col.findOne(DBQuery.is("_id",id));
+        return rtnOrder;
     }
 
-    public Collection<Order> listOrders() {
-        return Orders.values();
-    }
+    public List<Order> listOrders() {
+
+        DBCollection c = MongoDBService.connectFromEnv();
+        JacksonDBCollection<Order, String> col = JacksonDBCollection.wrap(c, Order.class,
+                String.class);
+        List<Order> orderList= col.find().limit(5).toArray();
+        return orderList;
+
+     }
 
     public Order createOrder(Order order) {
         //TODO: Place holder need to add mongodb persistence here..
