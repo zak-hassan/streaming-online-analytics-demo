@@ -1,0 +1,20 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: spark-streaming-job
+spec:
+  parallelism: 1
+  completions: 1
+  template:
+    metadata:
+      name: spark-streaming-job
+    spec:
+      containers:
+      - name: spark-streaming-job
+        image: docker.io/onlinestreaminganalytics/spark-streaming-job
+        env:
+          - name: SPARK_MASTER_URL
+            value: "spark://172.30.0.180:7077"
+          - name: SPARK_USER
+            value: bob
+      restartPolicy: Never
