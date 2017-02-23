@@ -1,0 +1,115 @@
+{
+    "kind": "Template",
+    "apiVersion": "v1",
+    "metadata": {
+        "name": "kafka-messaging-service",
+        "creationTimestamp": null,
+        "annotations": {
+            "description": "Kafka Messaging Service",
+            "tags": "quickstart,kafka",
+            "iconClass": "icon-nodejs"
+        }
+    },
+    "objects": [{
+        "kind": "Service",
+        "apiVersion": "v1",
+        "metadata": {
+            "name": "${KUBE_SERVICE_NAME}",
+            "creationTimestamp": null
+        },
+        "spec": {
+            "ports": [{
+                "name": "zk-client-port",
+                "port": 2181,
+                "targetPort": 2181
+              }, {
+                "name": "zk-peer-port",
+                "port": 2888,
+                "targetPort": 2888
+              }, {
+                "name": "zk-server-entry-port",
+                "port": 3888,
+                "targetPort": 3888
+              }, {
+                "name": "zk-server-webadmin-port",
+                "port": 8080,
+                "targetPort": 8080
+              }, {
+                "name": "kf-messaging-port",
+                "port": 9092,
+                "targetPort": 9092
+              }],
+            "selector": {
+                "name": "${MESSAGING_SERVICE_NAME}"
+            },
+            "portalIP": "",
+            "type": "ClusterIP",
+            "sessionAffinity": "None"
+        },
+        "status": {
+            "loadBalancer": {}
+        }
+    }, {
+        "kind": "DeploymentConfig",
+        "apiVersion": "v1",
+        "metadata": {
+            "name": "${MESSAGING_SERVICE_NAME}",
+            "creationTimestamp": null
+        },
+        "spec": {
+            "strategy": {
+                "type": "Recreate"
+            },
+            "replicas": 1,
+            "selector": {
+                "name": "${MESSAGING_SERVICE_NAME}"
+            },
+            "template": {
+                "metadata": {
+                    "creationTimestamp": null,
+                    "labels": {
+                        "name": "${MESSAGING_SERVICE_NAME}"
+                    }
+                },
+                "spec": {
+                    "containers": [{
+                			"name": "zookeeper-coordination-service",
+                			"image": "docker.io/bzcareer/docker-zookeeper",
+                			"env": [{
+                					"name": "ZK_ID",
+                					"value": "1"
+                			}],
+                			"ports": [{
+                				"containerPort": 2181
+                			}, {
+                				"containerPort": 2888
+                			}, {
+                				"containerPort": 3888
+                			}]
+                		},{
+                			"name": "kakfa-messaging-service",
+                			"image": "docker.io/bzcareer/docker-kafka",
+                			"ports": [{
+                				"containerPort": 9092
+                			}]
+                    }
+
+                    ]
+                }
+            }
+        }
+    }],
+    "parameters": [{
+        "name": "MESSAGING_SERVICE_NAME",
+        "displayName": "kafka service Name",
+        "required": true,
+        "value": "kafka-node"
+    },
+    {
+        "name": "KUBE_SERVICE_NAME",
+        "displayName": "kafka service Name",
+        "required": true,
+        "value": "kafka-service"
+    }],
+    "message": "You can connect to the database using Kafka "
+}
