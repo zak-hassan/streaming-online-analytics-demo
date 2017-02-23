@@ -75,7 +75,7 @@ public class OrderService {
         System.out.println("Sending kafka message to:" + kafkaURL);
         KafkaMessenger messenger= new KafkaMessenger(kafkaURL);
         try {
-            messenger.send(topic,msg).get();
+            messenger.send(topic , msg).get();
     } catch (InterruptedException e) {
         e.printStackTrace();
     } catch (ExecutionException e) {

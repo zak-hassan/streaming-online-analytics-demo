@@ -70,8 +70,10 @@ services:
     links:
       - kafka:kafkabroker
       - sparkMaster:sparkMasterURL
+      - zookeeper:zookeeperservice
     environment:
       - "KAFKA_URI=kafkabroker:9092"
+      - "ZOOKEEPER_URI=zookeeperservice:2181"
       - "SPARK_MASTER_URL=spark://sparkMasterURL:7077"
       - "SPARK_USER=bob"
   prometheus-metrics:
