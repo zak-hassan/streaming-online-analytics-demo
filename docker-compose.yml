@@ -70,8 +70,10 @@ services:
     links:
       - kafka:kafkabroker
       - sparkMaster:sparkMasterURL
+      - zookeeper:zookeeperservice
     environment:
       - "KAFKA_URI=kafkabroker:9092"
+      - "ZOOKEEPER_URI=zookeeperservice:2181"
       - "SPARK_MASTER_URL=spark://sparkMasterURL:7077"
       - "SPARK_USER=bob"
   prometheus-metrics:
@@ -84,3 +86,16 @@ services:
     links:
       - kafka:kafkabrokerMetrics
       - sparkMaster:sparkMasterMetrics
+  order-web-ui:
+    container_name: order-web-ui
+    build:
+      context: web
+      dockerfile: Dockerfile
+    ports:
+      - "8181:8181"
+    links:
+      - messaging-service:messaging-service
+      - mongo:mongodb
+    environment:
+      - "MONGO_URL=mongodb://mongodb:27017/sampledb"
+      - "OPENSHIFT_DATAPIPELINE_CAMEL_URL=http://messaging-service:8080"

@@ -50,25 +50,37 @@ public class OrderService {
 
     public Order createOrder(Order order) {
         //TODO: Place holder need to add mongodb persistence here..
-
         DBCollection c = MongoDBService.connectFromEnv();
         JacksonDBCollection<Order, String> coll = MongoDBService.persist(c, order);
-        KafkaMessenger messenger= new KafkaMessenger("localhost:9092");
         try {
             ObjectMapper mapper= new ObjectMapper();
             OrderEventMessage evt= new OrderEventMessage(OrderEvent.ADD_ORDER, order);
             String strOrder=mapper.writeValueAsString(evt);
-
-            messenger.send("topicA",strOrder).get();
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (JsonProcessingException e) {
+            sendMsgFromEnv("topicA",strOrder);
+        }  catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-
         return order;
     }
+
+    private void sendMsgFromEnv(String topic, String msg) {
+        String kafkaURL= "localhost:9092";
+        try{
+            String env_uri=System.getenv("KAFKA_URI");
+            if(env_uri !=null )
+                kafkaURL=env_uri;
+        }catch(Exception ex){
+            System.out.println("KAFKA_URI not set using default localhost");
+        }
+        System.out.println("Sending kafka message to:" + kafkaURL);
+        KafkaMessenger messenger= new KafkaMessenger(kafkaURL);
+        try {
+            messenger.send(topic , msg).get();
+    } catch (InterruptedException e) {
+        e.printStackTrace();
+    } catch (ExecutionException e) {
+        e.printStackTrace();
+    }
+
+}
 }

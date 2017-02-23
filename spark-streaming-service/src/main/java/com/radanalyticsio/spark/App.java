@@ -29,24 +29,20 @@ public class App {
         // Setting up kafka
         String kafkaURL= "localhost:9092";
         String env_uri=System.getenv("KAFKA_URI");
-        //  int env_port=System.getenv("MONGODB_PORT");
         if(env_uri !=null )
             kafkaURL=env_uri;
 
-        Map<String, Object> kafkaParams = new HashMap<>();
-        kafkaParams.put("bootstrap.servers", kafkaURL);
-        kafkaParams.put("key.deserializer", StringDeserializer.class);
-        kafkaParams.put("value.deserializer", StringDeserializer.class);
-        kafkaParams.put("group.id", "use_a_separate_group_id_for_each_stream");
-        kafkaParams.put("auto.offset.reset", "latest");
-        kafkaParams.put("enable.auto.commit", false);
+        // Setting up zookeeper
+        String zookeeperURL= "localhost:2181";
+        String zoo_env_uri=System.getenv("ZOOKEEPER_URI");
+        if(zoo_env_uri !=null )
+            zookeeperURL=zoo_env_uri;
+
         Map<String, Integer> topicMap = new HashMap<>();
         topicMap.put("topicA", 2);
-//        topicMap.put("topicB", 2);
-//      Collection<String> topics = Arrays.asList("test", "zak");
-        SparkConf conf = new SparkConf().setAppName("orderPurchaseService");
+        SparkConf conf = new SparkConf().setAppName("orderPurchaseService").setMaster("local[*]");
         JavaStreamingContext streamingContext = new JavaStreamingContext(conf, Durations.seconds(10));
-        JavaPairReceiverInputDStream<String, String> messages = KafkaUtils.createStream(streamingContext, "localhost:2181", "1", topicMap);
+        JavaPairReceiverInputDStream<String, String> messages = KafkaUtils.createStream(streamingContext, zookeeperURL, "1", topicMap);
         JavaDStream<String> lines = messages.map(new Function<Tuple2<String, String>, String>() {
             @Override
             public String call(Tuple2<String, String> tuple2) {
