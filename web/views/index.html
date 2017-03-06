@@ -16,28 +16,30 @@
 
 
   <script>
-    var socket = io.connect("http://localhost:4200");
+    // var socket = io.connect("http://localhost:4200");
 
 
 var notify=function(title,text){
    new PNotify({
       title: title,
-      text: text
+      text: text,
+      type: 'success'
    });
+
 };
 
 
 
-     socket.on('messages', function(data) {
-        console.dir(data);
-        notify("New Order", data.food);
-        $("#orderBackLog").append("<li class=\"list-group-item\">"+data.food+"</li>");
-      });
-socket.on('greeting',function(data){
-	console.dir(data);
-	notify("Greetings", data.message);
-	console.log(data.message);
-});
+//      socket.on('messages', function(data) {
+//         console.dir(data);
+//         notify("New Order", data.food);
+//         $("#orderBackLog").append("<li class=\"list-group-item\">"+data.food+"</li>");
+//       });
+// socket.on('greeting',function(data){
+// 	console.dir(data);
+// 	notify("Greetings", data.message);
+// 	console.log(data.message);
+// });
 
 var submitForm=function(){
   var pName = document.getElementById("productName").value;
@@ -56,12 +58,24 @@ var submitForm=function(){
 	productQuantity: pQty },
     dataType: "json",
     cache: false,
-success: function(data){
+    success: function(data){
       console.log("posted successfully!");
       console.dir(data);
         // Send message to websocket
         //socket.emit('sendtobackend', { food: foods });
       }
+    });
+
+    $("#orderBackLog").empty();
+    notify("New Order", "Your "+pName+" order is being processed");
+     // RUN THIS
+    $.get( "/orderService", function( data ) {
+      $.each(data, function(index, item) {
+      //  item.orders!=-1
+    console.log("ITEMS");
+    console.dir(item);
+        $("#orderBackLog").append("<li class=\"list-group-item\"> Product Name: "+item.productName+"</li>");
+      });
     });
 };
 

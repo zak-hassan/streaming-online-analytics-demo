@@ -3,6 +3,7 @@ package com.radanalyticsio.camel;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
 
 import org.mongojack.JacksonDBCollection;
 import org.mongojack.WriteResult;
@@ -22,28 +23,25 @@ public class MongoDBService {
 
     public static DBCollection connect() {
         MongoClient client = new MongoClient( "localhost" , 27017 );
-        DB database = client.getDB( "onlinestore" );
-        return database.getCollection("orders");
+         DB database = client.getDB( "onlinestore" );
+        return database.getCollection("evtorders");
     }
 
     public static DBCollection connectFromEnv() {
-        String mongoURL= "localhost";
-        int port=27017;
+        String mongo_uri= "mongodb://localhost:27017/onlinestore";
         try{
-            String env_uri=System.getenv("MONGODB_HOST");
-          //  int env_port=System.getenv("MONGODB_PORT");
+            String env_uri=System.getenv("MONGODB_URI");
             if(env_uri !=null )
-                mongoURL=env_uri;
-//            if(env_port !=null)
-//                port=env_port;
-
+                mongo_uri=env_uri;
         }catch(Exception ex){
             System.out.println("MONGODB_URI not set using default localhost");
         }
-        System.out.println(mongoURL);
-        MongoClient client = new MongoClient( mongoURL , port );
+        System.out.println("Connected to: "+mongo_uri);
+
+        MongoClient client = new MongoClient(new MongoClientURI(mongo_uri));
+
         DB database = client.getDB( "onlinestore" );
-        return database.getCollection("orders");
+        return database.getCollection("evtorders");
     }
 
 }

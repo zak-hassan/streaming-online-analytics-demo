@@ -1,7 +1,8 @@
-FROM openshift/base-centos7
+FROM docker.io/java:8-jdk-alpine
 
 MAINTAINER Zak Hassan zak.hassan1010@gmail.com
 
+##RUN yum install java-1.8.0-openjdk-devel.x86_64
 #ENVIRONMENT VARIABLES: MONGODB_URI, KAFKA_URI
 
 RUN mkdir -p /app

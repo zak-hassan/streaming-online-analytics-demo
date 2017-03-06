@@ -24,17 +24,17 @@ app.use(morgan('combined'));
 
 var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8181,
     ip   = process.env.IP   || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0',
-    mongoURL = process.env.OPENSHIFT_MONGODB_DB_URL || process.env.MONGO_URL || "mongodb://0.0.0.0:27017/sampledb",
+    mongoURL = process.env.OPENSHIFT_MONGODB_DB_URL || process.env.MONGO_URL ,
     datapipelineAPI = process.env.DATAPIPELINE_CAMEL_URL || process.env.OPENSHIFT_DATAPIPELINE_CAMEL_URL || "http://localhost:8080",
     mongoURLLabel = "";
 
 if (mongoURL == null && process.env.DATABASE_SERVICE_NAME) {
   var mongoServiceName = process.env.DATABASE_SERVICE_NAME.toUpperCase(),
-      mongoHost = process.env[mongoServiceName + '_SERVICE_HOST'],
-      mongoPort = process.env[mongoServiceName + '_SERVICE_PORT'],
-      mongoDatabase = process.env[mongoServiceName + '_DATABASE'],
-      mongoPassword = process.env[mongoServiceName + '_PASSWORD']
-      mongoUser = process.env[mongoServiceName + '_USER'];
+      mongoHost = mongoServiceName,
+      mongoPort = "27017",
+      mongoDatabase = process.env.MONGODB_DATABASE,
+      mongoPassword = process.env.MONGODB_PASSWORD,
+      mongoUser = process.env.MONGODB_USER;
 
   if (mongoHost && mongoPort && mongoDatabase) {
     mongoURLLabel = mongoURL = 'mongodb://';
@@ -83,10 +83,10 @@ app.post('/orderService', function (req, res) {
   }
   if (db) {
     	var col = db.collection('orders');
-    	
+
 	// Create a document with request IP and current time of request
 
-	col.insert({ productName: req.body.productName, productPrice: req.body.productPrice, productCategory: req.body.productCategory, productQuantity: req.body.productQuantity });   
+	col.insert({ productName: req.body.productName, productPrice: req.body.productPrice, productCategory: req.body.productCategory, productQuantity: req.body.productQuantity });
 
 	// sending orders to data analytics pipeline
 	var options = {
@@ -98,7 +98,7 @@ app.post('/orderService', function (req, res) {
 
     promise(options)
         .then(function(json) {
-	
+
             console.log(json);
             res.send(json);
         }).catch(function(err) {
@@ -106,7 +106,7 @@ app.post('/orderService', function (req, res) {
             res.send(err);
         });
 	res.send('{ orderstatus : success }');
-  
+
   } else {
     res.render('index.html', { pageCountMessage : null});
   }

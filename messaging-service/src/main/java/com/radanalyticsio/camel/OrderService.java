@@ -9,25 +9,14 @@ import com.redhat.analytics.producer.KafkaMessenger;
 import org.mongojack.DBQuery;
 import org.mongojack.JacksonDBCollection;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 import java.util.concurrent.ExecutionException;
 
 /**
  * Created by zhassan on 14/02/17.
  */
 public class OrderService {
-    private final Map<String, Order> Orders = new TreeMap<String, Order>();
 
-    public OrderService() {
-        Orders.put("123", new Order("Kitchen Table", 45.99, 1, 1));
-        Orders.put("124", new Order("BookShelf", 34.99, 2, 1));
-        Orders.put("225", new Order("Coffee Table", 9.99, 3, 1));
-        Orders.put("135", new Order("Office Chair", 20.99, 3, 1));
-    }
 
     public Order getOrder(String id) {
 

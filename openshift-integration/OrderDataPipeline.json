@@ -41,7 +41,40 @@
         "status": {
             "loadBalancer": {}
         }
-    }, {
+    },{
+    "apiVersion": "v1",
+    "kind": "Route",
+    "metadata": {
+      "name": "${ORDER_SERVICE_NAME}"
+    },
+    "spec": {
+        "host": "orderui.127.0.0.1.xip.io",
+        "port": {
+            "targetPort": "order-data-pipeline-ui"
+        },
+        "to": {
+            "kind": "Service",
+            "name": "orderdatapipeline"
+        }
+    }
+},{
+"apiVersion": "v1",
+"kind": "Route",
+"metadata": {
+  "name": "${ORDER_SERVICE_NAME}camel"
+},
+"spec": {
+    "host": "pipeline.127.0.0.1.xip.io",
+    "port": {
+        "targetPort": "order-data-pipeline-rest"
+    },
+    "to": {
+        "kind": "Service",
+        "name": "orderdatapipeline"
+    }
+}
+},
+{
         "kind": "DeploymentConfig",
         "apiVersion": "v1",
         "metadata": {
@@ -76,7 +109,21 @@
                             }, {
                                 "name": "MONGODB_DATABASE",
                                 "value": "onlinestore"
-                            }],
+                            }, {
+                                "name": "DATABASE_SERVICE_NAME",
+                                "value": "${DATABASE_SERVICE_NAME}"
+                              },
+                              {
+                                  "name": "MONGODB_SERVICE_HOST",
+                                  "value": "${DATABASE_SERVICE_NAME}"
+                              },  {
+                                    "name": "OPENSHIFT_DATAPIPELINE_CAMEL_URL",
+                                    "value": "${ORDER_SERVICE_NAME}:8080"
+                                }, {
+                                      "name": "OPENSHIFT_MONGODB_DB_URL",
+                                      "value": "mongodb://admin:admin@${ORDER_SERVICE_NAME}:27017/onlinestore"
+                                  }
+                               ],
                             "ports": [{
                                 "containerPort": 8181
                             }]
@@ -93,7 +140,14 @@
                             }, {
                                 "name": "MONGODB_DATABASE",
                                 "value": "onlinestore"
-                            }],
+                            }, {
+                                  "name": "MONGODB_URI",
+                                  "value": "mongodb://admin:admin@${ORDER_SERVICE_NAME}:27017/onlinestore"
+                              },
+                              {
+                                    "name": "KAFKA_URI",
+                                    "value": "${ORDER_SERVICE_NAME}:9092"
+                                }],
                             "ports": [{
                                 "containerPort": 8080
                             }]
@@ -145,6 +199,11 @@
         "name": "MONGODB_DATABASE",
         "displayName": "Database Name",
         "value": "onlinestore"
+    },
+  {
+      "name": "DATABASE_SERVICE_NAME",
+      "displayName": "database Name",
+      "value": "mongodb"
     }],
     "message": "You can connect to the database using MongoDB connection URL mongodb://${MONGODB_USER}:${MONGODB_PASSWORD}@${DATABASE_SERVICE_NAME}/${MONGODB_DATABASE}"
 }

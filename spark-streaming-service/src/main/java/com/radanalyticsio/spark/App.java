@@ -27,22 +27,11 @@ public class App {
 
     public static void main(String[] args) throws Exception {
         // Setting up kafka
-        String kafkaURL= "localhost:9092";
-        String env_uri=System.getenv("KAFKA_URI");
-        if(env_uri !=null )
-            kafkaURL=env_uri;
-
-        // Setting up zookeeper
-        String zookeeperURL= "localhost:2181";
-        String zoo_env_uri=System.getenv("ZOOKEEPER_URI");
-        if(zoo_env_uri !=null )
-            zookeeperURL=zoo_env_uri;
-
         Map<String, Integer> topicMap = new HashMap<>();
         topicMap.put("topicA", 2);
-        SparkConf conf = new SparkConf().setAppName("orderPurchaseService").setMaster("local[*]");
+        SparkConf conf = new SparkConf().setAppName("orderPurchaseService");
         JavaStreamingContext streamingContext = new JavaStreamingContext(conf, Durations.seconds(10));
-        JavaPairReceiverInputDStream<String, String> messages = KafkaUtils.createStream(streamingContext, zookeeperURL, "1", topicMap);
+        JavaPairReceiverInputDStream<String, String> messages = KafkaUtils.createStream(streamingContext, getZookeeperURI(), "1", topicMap);
         JavaDStream<String> lines = messages.map(new Function<Tuple2<String, String>, String>() {
             @Override
             public String call(Tuple2<String, String> tuple2) {
@@ -71,5 +60,29 @@ public class App {
         streamingContext.start();
         streamingContext.awaitTermination();
 
+    }
+
+    private static String getKafkaURI() {
+        String kafkaURL= "localhost:9092";
+        try {
+            String env_uri=System.getenv("KAFKA_URI");
+        if(env_uri !=null )
+            kafkaURL=env_uri;
+        }catch (Exception ex){
+            System.out.println("Errror kafka url not set");
+        }
+        return kafkaURL;
+    }
+    private static String getZookeeperURI() {
+        String url= "localhost:2181";
+        try {
+            String env_uri = System.getenv("ZOOKEEPER_URI");
+            if (env_uri != null)
+                url = env_uri;
+        }catch (Exception ex){
+            System.out.println("Errror: zookeeper env not set");
+        }
+
+        return url;
     }
 }
