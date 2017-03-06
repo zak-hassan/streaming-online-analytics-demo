@@ -12,5 +12,5 @@ WORKDIR /opt
 ADD ./target/spark-streaming-service-1.0-SNAPSHOT-jar-with-dependencies.jar /opt
 ADD ./entrypoint.sh   /opt
 WORKDIR /opt
- 
+
 ENTRYPOINT ["./entrypoint.sh"]

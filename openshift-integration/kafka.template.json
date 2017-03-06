@@ -38,6 +38,10 @@
                 "name": "kf-messaging-port",
                 "port": 9092,
                 "targetPort": 9092
+              }, {
+                "name": "jolokia",
+                "port": 9999,
+                "targetPort": 9999
               }],
             "selector": {
                 "name": "${MESSAGING_SERVICE_NAME}"
@@ -91,6 +95,8 @@
                 			"image": "docker.io/bzcareer/docker-kafka",
                 			"ports": [{
                 				"containerPort": 9092
+                			},{
+                				"containerPort": 9999
                 			}]
                     }
 
