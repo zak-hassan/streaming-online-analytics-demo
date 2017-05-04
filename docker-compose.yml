@@ -25,12 +25,6 @@ services:
     ports:
       - "9092:9092"
       - "9999:9999"
-  s3:
-    image: minio/minio
-    container_name: s3storage
-    command: server /export
-    ports:
-      - "9000:9000"
   sparkMaster:
     image: radanalyticsio/openshift-spark
     container_name: sparkMaster
@@ -61,31 +55,21 @@ services:
       - "KAFKA_URI=kafkaETL:9092"
       - "MONGODB_HOST=mongo"
       - "MONGODB_PORT=27017"
-  spark-streaming-service:
-    build:
-      context: spark-streaming-service
-      dockerfile: Dockerfile
-    ports:
-      - "4040:4040"
-    links:
-      - kafka:kafkabroker
-      - sparkMaster:sparkMasterURL
-      - zookeeper:zookeeperservice
-    environment:
-      - "KAFKA_URI=kafkabroker:9092"
-      - "ZOOKEEPER_URI=zookeeperservice:2181"
-      - "SPARK_MASTER_URL=spark://sparkMasterURL:7077"
-      - "SPARK_USER=bob"
-  prometheus-metrics:
-    container_name: prometheus-metrics
-    build:
-      context: metrics
-      dockerfile: Dockerfile
-    ports:
-      - "9090:9090"
-    links:
-      - kafka:kafkabrokerMetrics
-      - sparkMaster:sparkMasterMetrics
+#  spark-streaming-service:
+#    build:
+#      context: spark-streaming-service
+#      dockerfile: Dockerfile
+#    ports:
+#      - "4040:4040"
+#    links:
+#      - kafka:kafkabroker
+#      - sparkMaster:sparkMasterURL
+#      - zookeeper:zookeeperservice
+#    environment:
+#      - "KAFKA_URI=kafkabroker:9092"
+#      - "ZOOKEEPER_URI=zookeeperservice:2181"
+#      - "SPARK_MASTER_URL=spark://sparkMasterURL:7077"
+#      - "SPARK_USER=bob"
   order-web-ui:
     container_name: order-web-ui
     build:

@@ -86,14 +86,16 @@ app.post('/orderService', function (req, res) {
 
 	// Create a document with request IP and current time of request
 
-	col.insert({ productName: req.body.productName, productPrice: req.body.productPrice, productCategory: req.body.productCategory, productQuantity: req.body.productQuantity });
+	col.insert({ productName: req.body.productName, productPrice: req.body.productPrice,
+	productCategory: req.body.productCategory, productQuantity: req.body.productQuantity });
 
 	// sending orders to data analytics pipeline
 	var options = {
         method: 'POST',
         uri: datapipelineAPI + '/order/create',
         json: true,
-        body: { productName: req.body.productName, productPrice: parseFloat(req.body.productPrice), productCategory: parseInt(req.body.productCategory), productQuantity: parseInt(req.body.productQuantity) }
+        body: { productName: req.body.productName, productPrice: parseFloat(req.body.productPrice),
+         productCategory: parseInt(req.body.productCategory), productQuantity: parseInt(req.body.productQuantity) }
     };
 
     promise(options)
