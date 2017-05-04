@@ -13,11 +13,11 @@ CREATE TABLE IF NOT EXISTS product.customers (
 
 CREATE TABLE IF NOT EXISTS  product.orders (
   id uuid PRIMARY KEY,
-  productId varchar,
-  customerId varchar,
-  productQuantity varchar,
-  productCategory varchar,
-);
+  productId uuid,
+  customerId uuid,
+  productQuantity int,
+  created timestamp 
+ );
 
 CREATE TABLE IF NOT EXISTS product.inventory (
   id uuid PRIMARY KEY,
