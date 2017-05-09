@@ -1,13 +1,15 @@
 package com.radanalyticsio.camel;
 
+import com.model.ProductOrder;
+
 /**
  * Created by zhassan on 2017-02-20.
  */
 public class OrderEventMessage {
      OrderEvent event;
-     Order order;
+     ProductOrder order;
 
-    public OrderEventMessage(OrderEvent event, Order order) {
+    public OrderEventMessage(OrderEvent event, ProductOrder order) {
         this.event = event;
         this.order = order;
     }
@@ -20,11 +22,11 @@ public class OrderEventMessage {
         this.event = event;
     }
 
-    public Order getOrder() {
+    public ProductOrder getOrder() {
         return order;
     }
 
-    public void setOrder(Order order) {
+    public void setOrder(ProductOrder order) {
         this.order = order;
     }
 }

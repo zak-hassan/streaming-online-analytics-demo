@@ -40,18 +40,23 @@ public class CassandraService {
         this.properties = properties;
     }
 
-    public void addOrder(ProductOrder order) throws JsonMappingException, ClassNotFoundException {
+    public ProductOrder addOrder(ProductOrder order) throws JsonMappingException, ClassNotFoundException {
         dbconnect(serverUrl, port);
-        System.out.println("order"+order);
 
+        UUID uuid= UUID.randomUUID();
         //insert into product.orders (id, productId, customerId, productQuantity, created)
         // values (now(), 7916b318-30e0-11e7-ac7a-9801a798fc8f, 6e6172fe-30c8-11e7-ba5f-9801a798fc8f, '1',now() );
-        getSession().execute("INSERT into product.orders (id, productId, customerId, productQuantity, created) VALUES (?, ?, ?, ?, ?)",
-                    UUID.randomUUID(), UUID.fromString(order.getProductId()),
+        Row row=getSession().execute("INSERT into product.orders (id, productId, customerId, productQuantity, created) VALUES (?, ?, ?, ?, ?)",
+                    uuid, UUID.fromString(order.getProductId()),
                     UUID.fromString(order.getCustomerId()),order.getProductQuantity(),
-                    new Timestamp(new Date().getTime()));
+                    new Timestamp(new Date().getTime())).one();
 
+
+
+        order.setId(uuid.toString());
         cluster.close();
+
+        return order;
     }
 
     public ProductOrder getOrder(String id){

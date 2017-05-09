@@ -38,12 +38,13 @@ public class ProductOrder implements Mapper {
         customerId= row.getUUID("customerid").toString();
 
     }
+    public ProductOrder(){}
+
     public ProductOrder(Row row){
         map(row);
     }
 
     public ProductOrder(String customerId, String productId, int productQuantity) {
-        this.created = created;
         this.customerId = customerId;
         this.productId = productId;
         this.productQuantity = productQuantity;
