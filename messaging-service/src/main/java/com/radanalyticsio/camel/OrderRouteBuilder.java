@@ -1,5 +1,7 @@
 package com.radanalyticsio.camel;
 
+import com.model.ProductOrder;
+
 import org.apache.camel.model.rest.RestBindingMode;
 import org.apache.camel.builder.RouteBuilder;
 
@@ -13,11 +15,11 @@ public class OrderRouteBuilder extends RouteBuilder {
                 .bindingMode(RestBindingMode.json)
                 .dataFormatProperty("prettyPrint", "true");
         rest("/order").consumes("application/json").produces("application/json")
-                .get("/view/{id}").outType(Order.class)
+                .get("/view/{id}").outType(ProductOrder.class)
                 .to("bean:orderService?method=getOrder(${header.id})")
-                .get("/list").outTypeList(Order.class)
+                .get("/list").outTypeList(ProductOrder.class)
                 .to("bean:orderService?method=listOrders")
-                .post("/create").type(Order.class).outType(Order.class)
+                .post("/create").type(ProductOrder.class).outType(ProductOrder.class)
                 .to("bean:orderService?method=createOrder");
     }
 }
