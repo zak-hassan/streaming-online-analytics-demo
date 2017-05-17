@@ -40,7 +40,12 @@
             <artifactId>spark-streaming_${scala.version}</artifactId>
             <version>${spark.core.version}</version>
         </dependency>
-
+        <!-- Import the OrderEventModel. -->
+        <dependency>
+            <groupId>com.radanalyticsio.datapipeline</groupId>
+            <artifactId>order-processing-service</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
 
     </dependencies>
     <build>

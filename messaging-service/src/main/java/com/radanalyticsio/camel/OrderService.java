@@ -19,7 +19,7 @@ public class OrderService {
 
     public ProductOrder getOrder(String id) {
 
-        CassandraService service = new CassandraService("localhost",9042,null);
+        CassandraService service = new CassandraService(getCassandraHost(),9042,null);
         return service.getOrder(id);
 
     }
@@ -46,20 +46,45 @@ public class OrderService {
 
     public ProductOrder createOrder(ProductOrder order) {
         //TODO: Place holder need to add mongodb persistence here..
-        CassandraService service = new CassandraService("localhost",9042,null);
+        CassandraService service = new CassandraService(getCassandraHost(),9042,null);
 
         try {
             ProductOrder o =service.addOrder(order);
             ObjectMapper mapper= new ObjectMapper();
             OrderEventMessage evt= new OrderEventMessage(OrderEvent.ADD_ORDER, o);
             String strOrder=mapper.writeValueAsString(evt);
-            sendMsgFromEnv("topicA",strOrder);
+            sendMsgFromEnv(getTopic(),strOrder);
         }  catch (JsonProcessingException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
         return order;
+    }
+
+    private static String getCassandraHost() {
+        String url= "localhost";
+        try {
+            String env_uri = System.getenv("CASSANDRA_HOST");
+            if (env_uri != null)
+                url = env_uri;
+        }catch (Exception ex){
+            System.out.println("Errror: cassandra env not set");
+        }
+
+        return url;
+    }
+    private static String getTopic() {
+        String url= "topicA";
+        try {
+            String env_uri = System.getenv("TOPIC");
+            if (env_uri != null)
+                url = env_uri;
+        }catch (Exception ex){
+            System.out.println("Errror: topic env not set");
+        }
+
+        return url;
     }
 
     private void sendMsgFromEnv(String topic, String msg) {

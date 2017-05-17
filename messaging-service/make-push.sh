@@ -4,8 +4,8 @@ AUTHOR="Zak Hassan <zak.hassan@redhat.com>"
 
 
 echo   " Building Camel Kafka Messaging Integration Server in Docker "
- docker   build  --rm -t  etl-integration-webservice  .
+ docker   build  --rm -t  camel-etl-webservice  .
 
  echo "Pushing containers up to docker hub"
- docker tag  etl-integration-webservice docker.io/onlinestreaminganalytics/etl-integration-webservice
- docker push  docker.io/onlinestreaminganalytics/etl-integration-webservice
+ docker tag  camel-etl-webservice docker.io/zmhassan/camel-etl-webservice
+ docker push  docker.io/zmhassan/camel-etl-webservice
