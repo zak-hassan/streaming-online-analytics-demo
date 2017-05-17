@@ -19,17 +19,13 @@
         },
         "spec": {
             "ports": [{
-                "name": "order-data-pipeline-ui",
-                "port": 8181,
-                "targetPort": 8181
+                "name": "jupyter-notebook",
+                "port": 8888,
+                "targetPort": 8888
             }, {
                 "name": "order-data-pipeline-rest",
                 "port": 8080,
                 "targetPort": 8080
-            }, {
-                "name": "order-data-pipeline-mongodb",
-                "port": 27017,
-                "targetPort": 27017
             }],
             "selector": {
                 "name": "${ORDER_SERVICE_NAME}"
@@ -48,13 +44,13 @@
       "name": "${ORDER_SERVICE_NAME}"
     },
     "spec": {
-        "host": "orderui.127.0.0.1.xip.io",
+        "host": "jupyter-notebook.127.0.0.1.nip.io",
         "port": {
-            "targetPort": "order-data-pipeline-ui"
+            "targetPort": "jupyter-notebook"
         },
         "to": {
             "kind": "Service",
-            "name": "orderdatapipeline"
+            "name": "${ORDER_SERVICE_NAME}"
         }
     }
 },{
@@ -64,13 +60,13 @@
   "name": "${ORDER_SERVICE_NAME}camel"
 },
 "spec": {
-    "host": "pipeline.127.0.0.1.xip.io",
+    "host": "pipeline.127.0.0.1.nip.io",
     "port": {
         "targetPort": "order-data-pipeline-rest"
     },
     "to": {
         "kind": "Service",
-        "name": "orderdatapipeline"
+        "name": "${ORDER_SERVICE_NAME}"
     }
 }
 },
@@ -99,111 +95,49 @@
                 "spec": {
                     "containers": [{
                             "name": "order-data-pipeline-web-ui",
-                            "image": "docker.io/onlinestreaminganalytics/order-web-ui",
-                            "env": [{
-                                "name": "MONGODB_USER",
-                                "value": "admin"
+                            "image": "docker.io/zmhassan/camel-etl-webservice",
+                             "env": [{
+                                "name": "CASSANDRA_HOST",
+                                "value": "192.168.0.11"
                             }, {
-                                "name": "MONGODB_PASSWORD",
-                                "value": "admin"
+                                "name": "KAFKA_URI",
+                                "value": "${KAFKA_HOST}:9092"
                             }, {
-                                "name": "MONGODB_DATABASE",
-                                "value": "onlinestore"
-                            }, {
-                                "name": "DATABASE_SERVICE_NAME",
-                                "value": "${DATABASE_SERVICE_NAME}"
-                              },
-                              {
-                                  "name": "MONGODB_SERVICE_HOST",
-                                  "value": "${DATABASE_SERVICE_NAME}"
-                              },  {
-                                    "name": "OPENSHIFT_DATAPIPELINE_CAMEL_URL",
-                                    "value": "${ORDER_SERVICE_NAME}:8080"
-                                }, {
-                                      "name": "OPENSHIFT_MONGODB_DB_URL",
-                                      "value": "mongodb://admin:admin@${ORDER_SERVICE_NAME}:27017/onlinestore"
-                                  }
-                               ],
-                            "ports": [{
-                                "containerPort": 8181
-                            }]
-                        }
-                        , {
-                            "name": "order-data-pipeline-rest-api",
-                            "image": "docker.io/onlinestreaminganalytics/etl-integration-webservice",
-                            "env": [{
-                                "name": "MONGODB_USER",
-                                "value": "admin"
-                            }, {
-                                "name": "MONGODB_PASSWORD",
-                                "value": "admin"
-                            }, {
-                                "name": "MONGODB_DATABASE",
-                                "value": "onlinestore"
-                            }, {
-                                  "name": "MONGODB_URI",
-                                  "value": "mongodb://admin:admin@${ORDER_SERVICE_NAME}:27017/onlinestore"
-                              },
-                              {
-                                    "name": "KAFKA_URI",
-                                    "value": "${ORDER_SERVICE_NAME}:9092"
-                                }],
+                                "name": "TOPIC",
+                                "value": "${TOPIC}"
+                            }],
                             "ports": [{
                                 "containerPort": 8080
                             }]
-                        }, {
-                            "name": "order-data-pipeline-database",
-                            "image": "docker.io/centos/mongodb-32-centos7",
-                            "env": [{
-                                "name": "MONGODB_USER",
-                                "value": "admin"
-                            }, {
-                                "name": "MONGODB_PASSWORD",
-                                "value": "admin"
-                            }, {
-                                "name": "MONGODB_DATABASE",
-                                "value": "onlinestore"
-                            }, {
-                                "name": "MONGODB_ADMIN_PASSWORD",
-                                "value": "admin"
-                            }],
+                        }
+                        , {
+                            "name": "jupyter-notebook-ui",
+                            "image": "docker.io/radanalyticsio/base-notebook",
                             "ports": [{
-                                "containerPort": 27017
+                                "containerPort": 8888
                             }]
                         }
-
-
                     ]
                 }
             }
         }
     }],
-    "parameters": [{
+    "parameters": [
+      {
+        "name": "KAFKA_HOST",
+        "displayName": "Kafka Service Name",
+        "required": true,
+        "value": "apache-kafka"
+        },{
+          "name": "TOPIC",
+          "displayName": "Kafka Topic Name",
+          "required": true,
+          "value": "topicA"
+          },{
         "name": "ORDER_SERVICE_NAME",
         "displayName": "order-data-pipeline Service Name",
         "required": true,
         "value": "orderdatapipeline"
-    }, {
-        "name": "MONGODB_USER",
-        "displayName": "MongoDB Username",
-        "description": "Username for MongoDB user that will be used for accessing the database.",
-        "generate": "expression",
-        "from": "user[A-Z0-9]{3}"
-    }, {
-        "name": "MONGODB_PASSWORD",
-        "displayName": "MongoDB Password",
-        "description": "Password for the MongoDB user.",
-        "generate": "expression",
-        "from": "[a-zA-Z0-9]{16}"
-    }, {
-        "name": "MONGODB_DATABASE",
-        "displayName": "Database Name",
-        "value": "onlinestore"
-    },
-  {
-      "name": "DATABASE_SERVICE_NAME",
-      "displayName": "database Name",
-      "value": "mongodb"
     }],
-    "message": "You can connect to the database using MongoDB connection URL mongodb://${MONGODB_USER}:${MONGODB_PASSWORD}@${DATABASE_SERVICE_NAME}/${MONGODB_DATABASE}"
+    "message": "You can connect to jupyter-notebook.127.0.0.1.nip.io to access notebook and pipeline.127.0.0.1.nip.io to access order rest api "
 }

@@ -4,12 +4,13 @@ import com.datastax.driver.core.Row;
 
 import org.joda.time.DateTime;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by zhassan on 2017-05-04.
  */
-public class ProductOrder implements Mapper {
+public class ProductOrder implements Mapper, Serializable{
 
     String id;
     Date created;
