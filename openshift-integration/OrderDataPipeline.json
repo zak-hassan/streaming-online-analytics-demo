@@ -44,7 +44,7 @@
       "name": "${ORDER_SERVICE_NAME}"
     },
     "spec": {
-        "host": "jupyter-notebook.127.0.0.1.nip.io",
+        "host": "jupyter-notebookx.127.0.0.1.nip.io",
         "port": {
             "targetPort": "jupyter-notebook"
         },
@@ -60,7 +60,7 @@
   "name": "${ORDER_SERVICE_NAME}camel"
 },
 "spec": {
-    "host": "pipeline.127.0.0.1.nip.io",
+    "host": "pipex.127.0.0.1.nip.io",
     "port": {
         "targetPort": "order-data-pipeline-rest"
     },
@@ -98,7 +98,7 @@
                             "image": "docker.io/zmhassan/camel-etl-webservice",
                              "env": [{
                                 "name": "CASSANDRA_HOST",
-                                "value": "192.168.0.11"
+                                "value": "${CASSANDRA_HOST}"
                             }, {
                                 "name": "KAFKA_URI",
                                 "value": "${KAFKA_HOST}:9092"
@@ -127,12 +127,17 @@
         "name": "KAFKA_HOST",
         "displayName": "Kafka Service Name",
         "required": true,
-        "value": "apache-kafka"
+        "value": "192.168.0.11"
+      },{
+        "name": "CASSANDRA_HOST",
+        "displayName": "Cassandra Service Name",
+        "required": true,
+        "value": "127.0.0.1"
         },{
           "name": "TOPIC",
           "displayName": "Kafka Topic Name",
           "required": true,
-          "value": "topicA"
+          "value": "devnet"
           },{
         "name": "ORDER_SERVICE_NAME",
         "displayName": "order-data-pipeline Service Name",

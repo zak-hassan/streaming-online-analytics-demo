@@ -21,6 +21,6 @@ entry={'customerId': randomCustId,
 'productQuantity': random.randint(1,99)}
 print(json.dumps(entry))
 #r = requests.post('http://localhost:8080/order/create',json=entry)
-r = requests.post('http://pipeline.192.168.0.10.nip.io/order/create',json=entry)
+r = requests.post('http://pipex.127.0.0.1.nip.io/order/create',json=entry)
 print(r.status_code)
 print(r.json())
