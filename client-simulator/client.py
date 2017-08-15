@@ -4,7 +4,7 @@ import json
 import requests
 import random
 print("Connecting!")
-cluster = Cluster(['192.168.0.11'])
+cluster = Cluster(['10.15.17.78'])
 session = cluster.connect()
 session.set_keyspace('product')
 
@@ -21,6 +21,6 @@ entry={'customerId': randomCustId,
 'productQuantity': random.randint(1,99)}
 print(json.dumps(entry))
 #r = requests.post('http://localhost:8080/order/create',json=entry)
-r = requests.post('http://pipeline.192.168.0.10.nip.io/order/create',json=entry)
+r = requests.post('http://pipeline.10.19.47.15.xip.io/order/create',json=entry)
 print(r.status_code)
 print(r.json())
