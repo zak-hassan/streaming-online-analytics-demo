@@ -1,2 +1,15 @@
+
+
+build-push:
+	./build-push.sh
+
 build:
-	spark-streaming-service-1.0-SNAPSHOT-jar-with-dependencies.jar
+	./build.sh
+
+openshift-deploy:
+	./openshift-deploy.sh
+
+openshift-undeploy:
+	./openshift-undeploy.sh
+
+

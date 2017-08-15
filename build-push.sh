@@ -4,10 +4,12 @@ mvn clean install
 
 echo "Building: Web UI"
 
-./web/make-push.sh
+cd web && ./make-push.sh
+cd ..
 echo "Building: Streaming Service"
-
-./spark-streaming-service/make-push.sh
+cd py-structure-streaming && ./make-push.sh
+cd ..
 echo "Building: Messaging Service"
-./messaging-service/make-push.sh
+cd messaging-service && ./make-push.sh
+cd ..
 echo "Done!"

@@ -1,13 +1,18 @@
 # Spark Online Analytics Store Demo
 
+This application is a demonstration of using spark structured Streaming to
+process orders coming from a kafka topic. Orders can be stored in HDFS and then
+queried via Spark SQL ad hoc as data is streaming in live.
+
+
 ### Prerequisite
 
 Environment:
 * Kafka
 * Zookeeper
 * Docker
-* Minio
-
+* OpenShift v3 or greater
+* Cassandra
 
 
 ### Building and  Running
@@ -15,9 +20,8 @@ Environment:
 
 ```bash
 
-mvn clean install
-docker-compose build
-docker-compose up
+make build
+
 ```
 
 ### URLS:

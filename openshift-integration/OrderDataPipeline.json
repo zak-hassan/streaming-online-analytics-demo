@@ -44,7 +44,7 @@
       "name": "${ORDER_SERVICE_NAME}"
     },
     "spec": {
-        "host": "jupyter-notebookx.127.0.0.1.nip.io",
+        "host": "jupyter-notebook.${ROUTE_SUFFIX}",
         "port": {
             "targetPort": "jupyter-notebook"
         },
@@ -60,8 +60,8 @@
   "name": "${ORDER_SERVICE_NAME}camel"
 },
 "spec": {
-    "host": "pipex.127.0.0.1.nip.io",
-    "port": {
+ "host": "pipeline.${ROUTE_SUFFIX}",
+ "port": {
         "targetPort": "order-data-pipeline-rest"
     },
     "to": {
@@ -127,7 +127,7 @@
         "name": "KAFKA_HOST",
         "displayName": "Kafka Service Name",
         "required": true,
-        "value": "192.168.0.11"
+        "value": "10.15.17.78"
       },{
         "name": "CASSANDRA_HOST",
         "displayName": "Cassandra Service Name",
@@ -137,12 +137,23 @@
           "name": "TOPIC",
           "displayName": "Kafka Topic Name",
           "required": true,
-          "value": "devnet"
+          "value": "orders"
           },{
+            "name": "CASSANDRA_HOST",
+            "displayName": "Cassandra data store hostname or ip address",
+            "required": true,
+            "value": "10.15.17.78"
+            },{
+            "name": "ROUTE_SUFFIX",
+            "displayName": "The route suffix could be 127.0.0.1.nip.io or some other suffix",
+            "required": true,
+            "value": "e8ca.engint.openshiftapps.com"
+            }
+          ,{
         "name": "ORDER_SERVICE_NAME",
         "displayName": "order-data-pipeline Service Name",
         "required": true,
         "value": "orderdatapipeline"
     }],
-    "message": "You can connect to jupyter-notebook.127.0.0.1.nip.io to access notebook and pipeline.127.0.0.1.nip.io to access order rest api "
+    "message": "You can connect to jupyter-notebook.${ROUTE_SUFFIX} to access notebook and pipeline.${ROUTE_SUFFIX} to access order rest api "
 }
