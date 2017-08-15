@@ -4,7 +4,7 @@ This application is a demonstration of using spark structured Streaming to
 process orders coming from a kafka topic. Orders can be stored in HDFS and then
 queried via Spark SQL ad hoc as data is streaming in live.
 
-![alt tag](https://raw.githubusercontent.com/zmhassan/streaming-online-analytics-demo/master/imgs/Streaming-Online-Store-Demo.jpg?token=ABNf_3k6HtNiM7XPFTRRE6F7QWrB6jVGks5ZnIpkwA%3D%3D)
+![alt tag](https://raw.githubusercontent.com/zmhassan/streaming-online-analytics-demo/master/imgs/Streaming-Online-Store-Demo.jpg?token=ABNf_5SaA5ispEpPrWaVejsm4fjsd2bXks5ZnIsowA%3D%3D)
 
 
 ### Prerequisite
