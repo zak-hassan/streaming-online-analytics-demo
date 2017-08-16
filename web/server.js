@@ -2,9 +2,10 @@
 var express = require('express'),
     fs      = require('fs'),
     app     = express(),
-   promise  = require('request-promise'),
+    promise = require('request-promise'),
     eps     = require('ejs'),
     morgan  = require('morgan'); //,
+    path    = require('path');
     // parse application/json
     var bodyParser = require('body-parser')
     var server = require('http').createServer(app);
@@ -134,7 +135,8 @@ console.log(err);
   }
 });
 
-app.get('/', function (req, res) {
+app.use(express.static(path.join(__dirname, 'public')));
+app.get(['/', '/order', '/query'], function (req, res) {
   // try to initialize the db on every request if it's not already
   // initialized.
   if (!db) {
