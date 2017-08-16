@@ -6,4 +6,5 @@ web/node_modules
 web/public/build
 .idea/*
 *.swp
+*.log
 

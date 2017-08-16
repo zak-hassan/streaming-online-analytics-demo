@@ -8,7 +8,6 @@ export default createStore(
   combineReducers({
     modalReducer,
     messageReducer,}),
-  applyMiddleware(thunk)
-
+    applyMiddleware(thunk)
 );
 
