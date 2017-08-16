@@ -2,5 +2,8 @@ messaging-service/.idea
 messaging-service/target
 spark-streaming-service/.idea
 spark-streaming-service/target
+web/node_modules
+web/public/build
 .idea/*
+*.swp
 
