@@ -171,10 +171,14 @@ app.get('/pagecount', function (req, res) {
 
 
 app.get('/mock/orderService',function(req,res){
-var mock_data={ products: [
-{id: '1',image: 'filename',productName:'bananas',productPrice:'5.00',productCategory: 'fruit', productQuantity:3 },
-{id: '2',image:'filename',productName:'onions',productPrice:'3.00',productCategory:'vegetables',productQuantity:3}
-]};
+var mock_data={"products":[{"id":"1","pname":"bananas","pprice":"5.00",
+"ptype":"fruit","image":"bananas.jpg"},{"id":"2","image":"onions.jpg",
+"pname":"onions","pprice":"3.00","ptype":"vegetables"},{"id":"3",
+"image":"milk.jpg","pname":"milk","pprice":"4.00","ptype":"dairy"},
+{"id":"4","image":"cheese.jpg","pname":"cheese","pprice":"3.00",
+"ptype":"dairy"},{"id":"5","image":"almonds.jpg","pname":"almonds",
+"pprice":"10.00","ptype":"nuts"}]};
+
 
   res.send(JSON.stringify(mock_data))
 });
