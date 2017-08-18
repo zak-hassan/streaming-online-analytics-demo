@@ -170,6 +170,15 @@ app.get('/pagecount', function (req, res) {
 });
 
 
+app.get('/mock/orderService',function(req,res){
+var mock_data={ products: [
+{id: '1',image: 'filename',productName:'bananas',productPrice:'5.00',productCategory: 'fruit', productQuantity:3 },
+{id: '2',image:'filename',productName:'onions',productPrice:'3.00',productCategory:'vegetables',productQuantity:3}
+]};
+
+  res.send(JSON.stringify(mock_data))
+});
+
 // Setting up websockets:
 
 io.on('connection', function(client){
