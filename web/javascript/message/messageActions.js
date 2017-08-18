@@ -1,5 +1,5 @@
 import { getIcon } from "../utils";
-import { MESSAGE } from "../constants"
+import { MESSAGE } from "./messageConstants"
 
 export function setMessage(message, type){
   const icon = getIcon(type);

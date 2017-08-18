@@ -18,8 +18,7 @@ const productReducer = (state = initialState, action) => {
     }
     case CART.REMOVE: {
       state = {...state,};
-      let product = action.payload;
-      delete state.cart[product.id];
+      delete state.cart[action.payload.productId];
       break;
     }
     case CART.CLEAR: {

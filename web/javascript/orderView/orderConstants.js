@@ -1,0 +1,5 @@
+export const ORDER  = {
+  SET_TOTAL: "SET_TOTAL",
+  UPDATE_TOTAL: "UPDATE_TOTAL",
+  CHECKOUT: "CHECKOUT",
+};

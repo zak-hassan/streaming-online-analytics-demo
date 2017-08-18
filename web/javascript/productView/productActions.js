@@ -9,10 +9,10 @@ export function addProduct (product) {
   }
 }
 
-export function removeProduct (product) {
+export function removeProduct (productId) {
   return {
     type: CART.REMOVE,
-    payload: product
+    payload: productId
   }
 }
 

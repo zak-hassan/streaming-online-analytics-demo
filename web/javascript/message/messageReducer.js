@@ -1,4 +1,4 @@
-import {MESSAGE} from "../constants"
+import { MESSAGE } from "./messageConstants"
 
 const messageReducer = (state = {message: null, visible:null, messageType:null, icon:null}, action) => {
   switch (action.type) {
