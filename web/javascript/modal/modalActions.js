@@ -1,15 +1,9 @@
 import { MODAL } from "../constants"
 
-export function toggleConfigModal(){
+export function toggleCartModal(){
   return {
     type: MODAL.TOGGLE_MODAL,
-    payload: "config_modal"
+    payload: "add_to_cart_modal"
   };
 }
 
-export function toggleClassModal(){
-  return {
-    type: MODAL.TOGGLE_MODAL,
-    payload: "class_modal"
-  };
-}

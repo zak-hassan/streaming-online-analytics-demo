@@ -1,8 +1,7 @@
 import { MODAL } from "../constants"
 
 const initialState = {
-  config_modal: false,
-  class_modal: false,
+  add_to_cart_modal: false,
 };
 
 const modalReducer = function(state = initialState, action){

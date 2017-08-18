@@ -89,6 +89,10 @@
   justify-content: center;
 }
 
+.aligner-item {
+  align-items: stretch;
+}
+
 .config-save-spinner{
   padding-left: 5px;
 }
@@ -112,3 +116,5 @@
 .pf-blue{
     color: #0088ce;
 }
+
+
