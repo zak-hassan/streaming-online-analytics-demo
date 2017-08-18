@@ -1,7 +1,10 @@
-import { CART } from "./constants"
+import { CART, PRODUCTS } from "./productConstants"
 
 const initialState = {
   cart: {},
+  loadingProducts: true,
+  products: {},
+  selectedProduct: {},
 };
 
 const productReducer = (state = initialState, action) => {
@@ -22,6 +25,20 @@ const productReducer = (state = initialState, action) => {
       state = {...state,};
       state.cart = {};
       break;
+    }
+    case PRODUCTS.SET_LOADING_PRODUCTS: {
+      state = {...state};
+      state.loadingProducts = action.payload;
+      break;
+    }
+    case PRODUCTS.SET_PRODUCTS: {
+      state = {...state};
+      state.products = action.payload;
+      break;
+    }
+    case PRODUCTS.SELECT_PRODUCT: {
+      state = {...state};
+      state.selectedProduct = action.payload
     }
   }
   return state
