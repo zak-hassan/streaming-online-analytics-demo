@@ -5,27 +5,36 @@ class CheckoutItem extends Component {
 
   static get propTypes() {
     return {
-      name: PropTypes.String,
-      quant: PropTypes.String,
-      id: PropTypes.String,
-      category: PropTypes.String,
-      price: PropTypes.String,
+      name: PropTypes.string,
+      quant: PropTypes.number,
+      id: PropTypes.string,
+      category: PropTypes.string,
+      price: PropTypes.number,
       updateTotal: PropTypes.func,
-      removeProduct: PropTypes.func
+      removeProduct: PropTypes.func,
+      updateQuant: PropTypes.func,
+      toggleItem: PropTypes.func
     }
   }
 
-  componentWillUpdate(nextProp) {
-    if((nextProp.quant) !== this.prop.quant){
-      this.setState({oldQuant:this.prop.quant});
-    }
+  handleQuantChange(event) {
+    var quant = parseInt(event.target.value);
+    this.newQuant = quant != null && quant >= 0 ? quant : null;
+  }
+
+  handleSelect(event) {
+    this.props.toggleItem(this.props.id, event.target.checked);
   }
 
   update() {
-    this.props.updateTotal((this.props.quant - this.state.oldQuant)
-      * this.props.price);
-    if(this.props.quant == 0){
-      this.props.removeProduct(this.props.id);
+    if(this.newQuant != null) {
+      this.props.updateQuant(this.props.id, this.newQuant)
+      this.props.updateTotal((this.newQuant - this.props.quant)
+        * this.props.price);
+      if(this.newQuant == 0) {
+        this.props.toggleItem(this.props.id, false);
+        this.props.removeProduct(this.props.id);
+      }
     }
   }
 
@@ -35,7 +44,7 @@ class CheckoutItem extends Component {
         <div className="list-view-pf-main-info">
           <div className="list-view-pf-left">
             <div className="list-view-pf-checkbox">
-              <input type="checkbox"/>
+              <input type="checkbox" onChange={this.handleSelect.bind(this)}/>
             </div>
           </div>
           <div className="list-view-pf-body">
@@ -47,10 +56,9 @@ class CheckoutItem extends Component {
                 {this.props.category} - {this.props.name}
               </div>
               <div className="list-group-item-text">
-                {this.props.price} x
-                <input type="text" value={this.props.quant}/>
-              </div>
-            </div>
+                {"$" + this.props.price} x
+                <input type="number" min="0" step="1" maxLength={4} defaultValue={this.props.quant} onChange={this.handleQuantChange.bind(this)} />
+              </div> </div>
               <div className="list-view-pf-actions">
                 <button className="btn btn-default" onClick={this.update.bind(this)}>Update</button>
               </div>

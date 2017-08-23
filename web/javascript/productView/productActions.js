@@ -9,6 +9,13 @@ export function addProduct (product) {
   }
 }
 
+export function updateQuant (productId, quant) {
+  return {
+    type: CART.UPDATE_QUANT,
+    payload: {id:productId, quant:quant}
+  }
+}
+
 export function removeProduct (productId) {
   return {
     type: CART.REMOVE,

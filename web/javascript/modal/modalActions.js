@@ -1,4 +1,4 @@
-import { MODAL } from "../constants"
+import { MODAL } from "./modalConstants"
 
 export function toggleCartModal(){
   return {
