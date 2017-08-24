@@ -1,6 +1,7 @@
 import React,{ Component } from 'react';
 import PropTypes from 'prop-types';
 import ButtonComponent from '../../modal/components/ButtonModal.jsx';
+import { ROUTES } from '../productConstants'
 
 class Product extends Component {
   static get propTypes() {
@@ -8,6 +9,7 @@ class Product extends Component {
       product: PropTypes.object,
       toggleModal: PropTypes.func,
       selectedProduct: PropTypes.object,
+      selectProduct: PropTypes.func,
     }
   }
 
@@ -30,7 +32,7 @@ class Product extends Component {
       width: '80px',
       height: '80px',
     };
-    return <img className="img-thumb" src={"/mock/images/"+filename} style={imageStyle}/>;
+    return <img className="img-thumb" src={ROUTES.images + filename} style={imageStyle}/>;
   }
 
   render() {

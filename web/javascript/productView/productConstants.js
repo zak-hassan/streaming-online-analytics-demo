@@ -7,5 +7,10 @@ export const CART = {
 export const PRODUCTS = {
   SET_LOADING_PRODUCTS: "PRODUCTS_SET_LOADING_PRODUCTS",
   SET_PRODUCTS: "PRODUCTS_SET_PRODUCTS",
-  SELECT_PRODUCT: "PRODUCTS_SELECTED_PRODUCT"
+  SELECT_PRODUCT: "PRODUCTS_SELECTED_PRODUCT",
+};
+
+export const ROUTES = {
+  images : "/images/",
+  products: "/mock/orderService"
 };

@@ -117,4 +117,9 @@
     color: #0088ce;
 }
 
+.cart-nav-count{
+  margin: 10px;
+  font-size: 12px;
+  font-weight: bold;
+}
 

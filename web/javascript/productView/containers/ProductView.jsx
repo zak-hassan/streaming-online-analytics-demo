@@ -3,15 +3,14 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types';
 import {
   addProduct,
-  removeProduct,
-  clearProducts,
   handleGETProducts,
   selectProduct,
 } from '../productActions'
+import { setMessage } from '../../message/messageActions'
 import Products from '../components/products.jsx';
 import { toggleCartModal } from '../../modal/modalActions';
 import ModalComponentDialog from "../../modal/components/ModalWindow.jsx";
-
+import { ROUTES } from '../productConstants'
 
 class ProductView extends Component {
   static get propTypes(){
@@ -23,12 +22,16 @@ class ProductView extends Component {
       toggleModal: PropTypes.func,
       selectedProduct: PropTypes.object,
       selectProduct: PropTypes.func,
+      modalState: PropTypes.bool,
+      products: PropTypes.object,
+      setMessage: PropTypes.func,
     }
   }
 
   constructor(){
     super();
     this.closeModal = this.closeModal.bind(this);
+    this.addToCart = this.addToCart.bind(this);
   }
 
   componentWillMount(){
@@ -40,17 +43,24 @@ class ProductView extends Component {
       width: '80px',
       height: '80px',
     };
-    return <img className="img-thumb" src={"/mock/images/"+filename} style={imageStyle}/>;
+    return <img className="img-thumb" src={ROUTES.images+filename} style={imageStyle}/>;
   }
 
   closeModal(){
     this.props.toggleModal();
   }
 
+  addToCart(){
+    this.props.addProduct(this.props.selectedProduct);
+    this.closeModal();
+    this.props.setMessage("Successfully added item to cart", "success");
+
+  };
+
   createModalFooter(){
     return (
       <div className="modal-footer">
-        <button type="button" className="btn btn-secondary" data-dismiss="modal" onClick={this.closeModal}>Add to Cart</button>
+        <button type="button" className="btn btn-secondary" data-dismiss="modal" onClick={this.addToCart}>Add to Cart</button>
         <button type="button" className="btn btn-secondary" data-dismiss="modal" onClick={this.closeModal}>Close</button>
       </div>
     )
@@ -58,15 +68,16 @@ class ProductView extends Component {
 
   createModal(){
     let content = <div>content</div>;
+    let containerStyle = {width: 'auto'};
     if(this.props.selectedProduct){
       let product = this.props.selectedProduct;
       let productImage = this.imageFormatter(product.image);
       content =
-        <div className="container">
+        <div className="container" style={containerStyle}>
           <div className="col-sm-3 aligner">
-            <div className="aligner-item">{productImage}</div>
+            <div className="">{productImage}</div>
           </div>
-          <div className="col-sm-9">
+          <div className="col-sm-6">
             <h2 className="card-pf-title">{product.pname}</h2>
             <div className="card-pf-item">
               <span className="fa fa-usd"/>
@@ -115,7 +126,6 @@ class ProductView extends Component {
     if (this.props.loadingProducts === false){
       content = this.createProducts();
     }
-
     return (
       <div className="col col-cards-pf container-cards-pf fader">
         <div className="cards col-xs-10 col-md-8 ">
@@ -151,11 +161,8 @@ const mapDispatchToProps = (dispatch) => {
     addProduct: (product) => {
       dispatch(addProduct(product))
     },
-    removeProduct: (product) => {
-      dispatch(removeProduct(product))
-    },
-    clearProducts: () => {
-      dispatch(clearProducts())
+    setMessage: (msg, type) => {
+      dispatch(setMessage(msg, type))
     },
     handleGETProducts: () => {
       dispatch(handleGETProducts())
@@ -167,6 +174,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(selectProduct(product))
     }
   }
+
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductView)

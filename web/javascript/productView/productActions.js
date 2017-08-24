@@ -1,4 +1,4 @@
-import { CART, PRODUCTS } from "./productConstants"
+import { CART, PRODUCTS, ROUTES } from "./productConstants"
 import $ from "jquery";
 import { setMessage } from "../message/messageActions";
 
@@ -46,7 +46,7 @@ function parseResponse(result){
 }
 
 export function handleGETProducts(){
-  const url = '/mock/orderService';
+  const url = ROUTES.products;
   return (dispatch) => {
     dispatch(setLoadingProducts(true));
     $.ajax({
