@@ -7,6 +7,7 @@ class CheckoutItem extends Component {
     return {
       name: PropTypes.string,
       quant: PropTypes.number,
+      image: PropTypes.string,
       id: PropTypes.string,
       category: PropTypes.string,
       price: PropTypes.number,
@@ -50,14 +51,14 @@ class CheckoutItem extends Component {
           <div className="list-view-pf-body">
             <div className="list-view-pf-description">
               <div className="list-group-item-heading">
-                <img src={"/images/" + this.props.id}/>
+                <img src={"/images/" + this.props.image}/>
               </div>
               <div className="list-group-item-heading">
                 {this.props.category} - {this.props.name}
               </div>
               <div className="list-group-item-text">
                 {"$" + this.props.price} x
-                <input type="number" min="0" step="1" maxLength={4} defaultValue={this.props.quant} onChange={this.handleQuantChange.bind(this)} />
+                <input type="number" min="0" step="1" defaultValue={this.props.quant} onChange={this.handleQuantChange.bind(this)} />
               </div> </div>
               <div className="list-view-pf-actions">
                 <button className="btn btn-default" onClick={this.update.bind(this)}>Update</button>

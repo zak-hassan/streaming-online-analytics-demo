@@ -27,6 +27,7 @@ class OrderView extends Component {
       total: PropTypes.number,
       name: PropTypes.string,
       category: PropTypes.string,
+      image: PropTypes.string,
       quant: PropTypes.number,
       price: PropTypes.number
     }
@@ -50,7 +51,7 @@ class OrderView extends Component {
     if(this.props.cart) {
       for(var id in this.props.cart) {
           var item = this.props.cart[id]
-          total += item.productPrice;
+          total += item.pprice * item.pquant;
       }
       this.props.setTotal(total);
     }
@@ -62,9 +63,9 @@ class OrderView extends Component {
       for(var id in this.props.cart) {
           var item = this.props.cart[id]
           items.push(
-            <CheckoutItem key={id} id={id} item={item} name={item.productName}
-            price={item.productPrice} category={item.productCategory}
-            quant={item.quantity} removeProduct={this.props.removeProduct}
+            <CheckoutItem key={id} id={id} item={item} name={item.pname}
+            price={item.pprice} category={item.ptype} image={item.image}
+            quant={item.pquant} removeProduct={this.props.removeProduct}
             updateTotal={this.props.updateTotal}
             updateQuant={this.props.updateQuant}
             toggleItem={this.props.toggleItem}/>
@@ -94,7 +95,6 @@ class OrderView extends Component {
     );
   }
 }
-
 
 const mapStateToProps = (state) => {
   return {

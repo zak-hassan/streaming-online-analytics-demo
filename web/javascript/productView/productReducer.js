@@ -1,16 +1,10 @@
 import { CART, PRODUCTS } from "./productConstants"
 
 const initialState = {
-  //cart: {},
+  cart: {},
   loadingProducts: true,
   products: {},
   selectedProduct: {},
-
-  cart:{1:{productName:"Apple", productPrice:1,productCategory:"fruit", quantity:1 },
-      2:{productName:"Apple", productPrice:1,productCategory:"fruit", quantity:1 },
-      3:{productName:"Apple", productPrice:1,productCategory:"fruit", quantity:1 },
-      4:{productName:"Apple", productPrice:1,productCategory:"fruit", quantity:1 }
-    }
 };
 
 const productReducer = (state = initialState, action) => {
@@ -19,12 +13,8 @@ const productReducer = (state = initialState, action) => {
       state = {...state,};
       state.cart = {...state.cart};
       let product = action.payload;
-      state.cart[product.id] = product;
-      break;
-    }
-    case CART.UPDATE_QUANT: {
-      state = {...state,};
-      state.cart[action.payload.id].quantity = action.payload.quant
+      if(state.cart[product.id]) state.cart[product.id].pquant +=1;
+      else state.cart[product.id] = action.payload;
       break;
     }
     case CART.REMOVE: {
@@ -50,6 +40,12 @@ const productReducer = (state = initialState, action) => {
     case PRODUCTS.SELECT_PRODUCT: {
       state = {...state};
       state.selectedProduct = action.payload
+      break;
+    }
+    case PRODUCTS.UPDATE_QUANT: {
+      state = {...state,};
+      state.cart[action.payload.id].pquant = action.payload.quant
+      break;
     }
   }
   return state

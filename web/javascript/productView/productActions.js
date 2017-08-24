@@ -11,7 +11,7 @@ export function addProduct (product) {
 
 export function updateQuant (productId, quant) {
   return {
-    type: CART.UPDATE_QUANT,
+    type: PRODUCTS.UPDATE_QUANT,
     payload: {id:productId, quant:quant}
   }
 }

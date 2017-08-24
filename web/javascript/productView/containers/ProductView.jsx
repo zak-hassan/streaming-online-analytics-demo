@@ -6,7 +6,7 @@ import {
   handleGETProducts,
   selectProduct,
 } from '../productActions'
-import { setMessage } from '../../message/messageActions'
+import { setMessageWithTimeout } from '../../message/messageActions'
 import Products from '../components/products.jsx';
 import { toggleCartModal } from '../../modal/modalActions';
 import ModalComponentDialog from "../../modal/components/ModalWindow.jsx";
@@ -24,7 +24,7 @@ class ProductView extends Component {
       selectProduct: PropTypes.func,
       modalState: PropTypes.bool,
       products: PropTypes.object,
-      setMessage: PropTypes.func,
+      setMessageWithTimeout: PropTypes.func,
     }
   }
 
@@ -53,7 +53,7 @@ class ProductView extends Component {
   addToCart(){
     this.props.addProduct(this.props.selectedProduct);
     this.closeModal();
-    this.props.setMessage("Successfully added item to cart", "success");
+    this.props.setMessageWithTimeout("Successfully added item to cart", "success");
   }
 
   createModalFooter(){
@@ -160,8 +160,8 @@ const mapDispatchToProps = (dispatch) => {
     addProduct: (product) => {
       dispatch(addProduct(product))
     },
-    setMessage: (msg, type) => {
-      dispatch(setMessage(msg, type))
+    setMessageWithTimeout: (msg, type) => {
+      dispatch(setMessageWithTimeout(msg, type))
     },
     handleGETProducts: () => {
       dispatch(handleGETProducts())
