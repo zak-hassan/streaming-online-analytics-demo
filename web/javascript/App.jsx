@@ -27,6 +27,7 @@ class App extends Component {
       clearMessage: PropTypes.func,
       cart: PropTypes.object,
       toggleModal: PropTypes.func,
+      modalState: PropTypes.bool,
     }
   }
 

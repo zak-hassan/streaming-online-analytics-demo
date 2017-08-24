@@ -15,9 +15,6 @@ class NavBar extends Component {
 
   render() {
     let cartCount = Object.keys(this.props.cart).length;
-    const countStyle = {
-      margin: '10px',
-    };
     return (
       <Navbar className="navbar-default navbar-pf" >
         <Navbar.Header>

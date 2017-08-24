@@ -54,8 +54,7 @@ class ProductView extends Component {
     this.props.addProduct(this.props.selectedProduct);
     this.closeModal();
     this.props.setMessage("Successfully added item to cart", "success");
-
-  };
+  }
 
   createModalFooter(){
     return (
