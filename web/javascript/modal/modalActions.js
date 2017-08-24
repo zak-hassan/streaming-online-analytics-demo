@@ -7,3 +7,10 @@ export function toggleCartModal(){
   };
 }
 
+export function toggleShowCartModal(){
+  return {
+    type: MODAL.TOGGLE_MODAL,
+    payload: "show_cart_modal",
+  }
+}
+

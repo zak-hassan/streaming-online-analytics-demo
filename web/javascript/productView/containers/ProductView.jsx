@@ -3,11 +3,10 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types';
 import {
   addProduct,
-  removeProduct,
-  clearProducts,
   handleGETProducts,
   selectProduct,
 } from '../productActions'
+import { setMessage } from '../../message/messageActions'
 import Products from '../components/products.jsx';
 import { toggleCartModal } from '../../modal/modalActions';
 import ModalComponentDialog from "../../modal/components/ModalWindow.jsx";
@@ -25,6 +24,7 @@ class ProductView extends Component {
       selectProduct: PropTypes.func,
       modalState: PropTypes.bool,
       products: PropTypes.object,
+      setMessage: PropTypes.func,
     }
   }
 
@@ -53,6 +53,8 @@ class ProductView extends Component {
   addToCart(){
     this.props.addProduct(this.props.selectedProduct);
     this.closeModal();
+    this.props.setMessage("Successfully added item to cart", "success");
+
   };
 
   createModalFooter(){
@@ -159,11 +161,8 @@ const mapDispatchToProps = (dispatch) => {
     addProduct: (product) => {
       dispatch(addProduct(product))
     },
-    removeProduct: (product) => {
-      dispatch(removeProduct(product))
-    },
-    clearProducts: () => {
-      dispatch(clearProducts())
+    setMessage: (msg, type) => {
+      dispatch(setMessage(msg, type))
     },
     handleGETProducts: () => {
       dispatch(handleGETProducts())
@@ -175,6 +174,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(selectProduct(product))
     }
   }
+
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductView)

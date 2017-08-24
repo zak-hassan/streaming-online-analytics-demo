@@ -11,6 +11,7 @@ const productReducer = (state = initialState, action) => {
   switch (action.type) {
     case CART.ADD: {
       state = {...state,};
+      state.cart = {...state.cart};
       let product = action.payload;
       state.cart[product.id] = product;
       break;
