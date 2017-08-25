@@ -31,6 +31,7 @@
     "prop-types": "^15.5.10",
     "react": "^15.6.1",
     "react-bootstrap": "^0.31.2",
+    "react-bootstrap-table": "^3.5.1",
     "react-css-transition-replace": "^2.2.1",
     "react-dom": "^15.6.1",
     "react-modal": "^2.2.2",
