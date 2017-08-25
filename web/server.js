@@ -171,13 +171,13 @@ app.get('/pagecount', function (req, res) {
 
 
 app.get('/mock/orderService',function(req,res){
-var mock_data={"products":[{"id":"1","pname":"bananas","pprice":"5.00",
-"ptype":"fruit","image":"bananas.jpg"},{"id":"2","image":"onions.jpg",
-"pname":"onions","pprice":"3.00","ptype":"vegetables"},{"id":"3",
-"image":"milk.jpg","pname":"milk","pprice":"4.00","ptype":"dairy"},
-{"id":"4","image":"cheese.jpg","pname":"cheese","pprice":"3.00",
-"ptype":"dairy"},{"id":"5","image":"almonds.jpg","pname":"almonds",
-"pprice":"10.00","ptype":"nuts"}]};
+var mock_data={"products":[{"id":"1","pname":"bananas","pprice":5.00,
+"ptype":"fruit","image":"bananas.jpg", "pquant":1},{"id":"2","image":"onions.jpg",
+"pname":"onions","pprice":3.00,"ptype":"vegetables", "pquant":1},{"id":"3",
+"image":"milk.jpg","pname":"milk","pprice":4.00,"ptype":"dairy", "pquant":1},
+{"id":"4","image":"cheese.jpg","pname":"cheese","pprice":3.00,
+"ptype":"dairy", "pquant":3},{"id":"5","image":"almonds.jpg","pname":"almonds",
+"pprice":10.00,"ptype":"nuts", "pquant":1}]};
 
 
   res.send(JSON.stringify(mock_data))
@@ -199,7 +199,7 @@ client.emit('greeting', {'message': 'hello world'});
 });
 
 
-server.listen(4200);
+server.listen(4201);
 
 // error handling
 app.use(function(err, req, res, next){

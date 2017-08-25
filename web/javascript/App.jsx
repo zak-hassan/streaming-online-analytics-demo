@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 import {
   BrowserRouter as Router,
   Route,
@@ -42,7 +43,9 @@ class App extends Component {
 
     let footer =
       <div className="modal-footer">
-        <a className="btn btn-secondary" style={btnStyle} href="/order">Review Orders</a>
+        <a className="btn btn-secondary" style={btnStyle} onClick={this.props.toggleModal}>
+          <Link to="/order"> Review Orders</Link>
+        </a>
         <button type="button" className="btn btn-secondary" data-dismiss="modal" onClick={this.props.toggleModal}>Close</button>
       </div>;
 

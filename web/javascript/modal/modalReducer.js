@@ -1,4 +1,4 @@
-import { MODAL } from "../constants"
+import { MODAL } from "./modalConstants"
 
 const initialState = {
   add_to_cart_modal: false,
