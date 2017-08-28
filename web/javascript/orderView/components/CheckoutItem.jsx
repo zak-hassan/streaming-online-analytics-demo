@@ -51,7 +51,7 @@ class CheckoutItem extends Component {
           <div className="list-view-pf-body">
             <div className="list-view-pf-description">
               <div className="list-group-item-heading">
-                <img src={"/images/" + this.props.image}/>
+                <img className="img-thumb" src={"/images/" + this.props.image}/>
               </div>
               <div className="list-group-item-heading">
                 {this.props.category} - {this.props.name}
