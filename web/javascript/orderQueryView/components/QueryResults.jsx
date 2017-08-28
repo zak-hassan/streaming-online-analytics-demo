@@ -7,30 +7,44 @@ class QueryResults extends Component {
   static get propTypes() {
     return {
       queryResults: PropTypes.array,
+      table: PropTypes.array,
     }
   }
 
+  createHeaders(table){
+    let product = table[0];
+    let columns = Object.keys(product);
+
+    return columns.map((title, i) => {
+      let row = null;
+      if (i === 0){
+        row = <TableHeaderColumn key={i} dataAlign="center" dataSort={true} dataField={title} isKey={true}>{title}</TableHeaderColumn>;
+      } else {
+        row = <TableHeaderColumn key={i} dataAlign="center" dataSort={true} dataField={title}>{title}</TableHeaderColumn>
+      }
+      return row;
+    });
+  }
+
   render() {
+    let table = this.props.table;
+    let bootStrapTable = <i> Nothing to show ...</i>;
+    if (table.length > 0) {
+      bootStrapTable =
+        <BootstrapTable data={this.props.table} hover pagination>
+         {this.createHeaders(table)}
+        </BootstrapTable>;
+    }
 
     return (
-       <div className="container container-cards-pf">
-         <div className="card-pf card-pf-accented">
-            <div className="card-pf-heading">
+         <div >
               <h2 className="card-pf-title">
                 Query result
               </h2>
-            </div>
             <div className="card-pf-body">
-              <BootstrapTable data={this.props.queryResults} hover pagination>
-                <TableHeaderColumn dataAlign="center" dataSort={true} dataField="id" isKey={true}>Id</TableHeaderColumn>
-                <TableHeaderColumn dataAlign="center" dataSort={true} dataField="pname">Product name</TableHeaderColumn>
-                <TableHeaderColumn dataAlign="center" dataSort={true} dataField="pprice">Product price</TableHeaderColumn>
-                <TableHeaderColumn dataAlign="center" dataSort={true} dataField="pcat">Product category</TableHeaderColumn>
-              </BootstrapTable>
+              {bootStrapTable}
             </div>
          </div>
-       </div>
-
     );
   }
 
