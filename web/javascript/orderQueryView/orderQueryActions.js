@@ -45,7 +45,7 @@ export function handlePostQuery (query){
       success: function (result) {
         dispatch(setSubmitQueryStatus(false));
         // ToDo: If result is empty, display no results found?
-        dispatch(updateQueryTable(result.products));
+        dispatch(updateQueryTable(result.table));
         dispatch(setMessageWithTimeout('Query Updated Successfully!', "success"));
       }.bind(this),
       error: function () {
