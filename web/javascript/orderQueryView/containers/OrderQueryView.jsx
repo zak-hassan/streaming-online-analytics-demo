@@ -15,6 +15,8 @@ class OrderQueryView extends Component {
       query: PropTypes.string,
       table: PropTypes.array,
       clearTable: PropTypes.func,
+      handlePostQuery: PropTypes.func,
+      updateQuery: PropTypes.func,
     }
   }
 
