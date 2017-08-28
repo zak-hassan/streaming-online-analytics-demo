@@ -5,6 +5,11 @@
   cursor: pointer;
 }
 
+.img-thumb {
+  width:80px;
+  height:80px;
+}
+
 /* Add pointer icon */
 .pointer{
   cursor: pointer;
