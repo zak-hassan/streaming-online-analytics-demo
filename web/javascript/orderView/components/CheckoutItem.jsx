@@ -14,17 +14,16 @@ class CheckoutItem extends Component {
       updateTotal: PropTypes.func,
       removeProduct: PropTypes.func,
       updateQuant: PropTypes.func,
-      toggleItem: PropTypes.func
+      toggleItem: PropTypes.func,
+      newQuant: PropTypes.number,
+      handleNewQuantChange: PropTypes.func,
     }
   }
 
-  componentWillReceiveProps(nextProps){
-    this.newQuant = nextProps.quant
-  };
-
   handleQuantChange(event) {
     let quant = parseInt(event.target.value);
-    this.newQuant = quant !== null && quant >= 0 ? quant : null;
+    let newQuant = quant !== null && quant >= 0 ? quant : null;
+    this.props.handleNewQuantChange(this.props.id, newQuant);
   }
 
   handleSelect(event) {
@@ -32,10 +31,10 @@ class CheckoutItem extends Component {
   }
 
   update() {
-    if(this.newQuant !== null) {
-      this.props.updateQuant(this.props.id, this.newQuant);
-      this.props.updateTotal((this.newQuant - this.props.quant) * this.props.price);
-      if(this.newQuant === 0) {
+    if(this.props.newQuant !== null) {
+      this.props.updateQuant(this.props.id, this.props.newQuant);
+      this.props.updateTotal((this.props.newQuant - this.props.quant) * this.props.price);
+      if(this.props.newQuant === 0) {
         this.props.toggleItem(this.props.id, false);
         this.props.removeProduct(this.props.id);
       }
