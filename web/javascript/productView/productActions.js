@@ -79,3 +79,10 @@ export function selectProduct(product){
   }
 }
 
+export function handleNewQuantChange(id, update){
+  return {
+    type: PRODUCTS.HANDLE_NEW_QUANT_CHANGE,
+    payload: [id, update]
+  }
+}
+

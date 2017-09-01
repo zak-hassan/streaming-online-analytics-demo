@@ -9,6 +9,7 @@ import { toggleItem } from "../orderActions"
 import { clearToggle } from "../orderActions"
 import { removeProduct } from "../../productView/productActions";
 import { updateQuant } from "../../productView/productActions";
+import { handleNewQuantChange } from "../../productView/productActions";
 import CheckoutItem from "../components/CheckoutItem.jsx";
 import { Link } from "react-router-dom";
 
@@ -30,7 +31,8 @@ class OrderView extends Component {
       category: PropTypes.string,
       image: PropTypes.string,
       quant: PropTypes.number,
-      price: PropTypes.number
+      price: PropTypes.number,
+      handleNewQuantChange: PropTypes.func,
     }
   }
 
@@ -40,8 +42,8 @@ class OrderView extends Component {
 
   deleteSelected() {
     this.props.selected.forEach((id) => {
-      var item = this.props.cart[id];
-      this.props.updateTotal(-(item.quantity * item.productPrice))
+      let item = this.props.cart[id];
+      this.props.updateTotal(-(item.pquant * item.pprice));
       this.props.clearToggle();
       this.props.removeProduct(id);
     });
@@ -64,15 +66,16 @@ class OrderView extends Component {
     let cart = this.props.cart;
     if(Object.keys(cart).length !== 0) {
       for(let id in cart) {
-          let item = cart[id];
-          items.push(
-            <CheckoutItem key={id} id={id} item={item} name={item.pname}
-            price={item.pprice} category={item.ptype} image={item.image}
-            quant={item.pquant} removeProduct={this.props.removeProduct}
-            updateTotal={this.props.updateTotal}
-            updateQuant={this.props.updateQuant}
-            toggleItem={this.props.toggleItem}/>
-          );
+        let item = cart[id];
+        items.push(
+          <CheckoutItem key={id} id={id} item={item} name={item.pname} newQuant={item.newQuant}
+                        price={item.pprice} category={item.ptype} image={item.image}
+                        quant={item.pquant} removeProduct={this.props.removeProduct}
+                        updateTotal={this.props.updateTotal}
+                        updateQuant={this.props.updateQuant}
+                        toggleItem={this.props.toggleItem}
+                        handleNewQuantChange={this.props.handleNewQuantChange}/>
+        );
       }
       pageContent =
         <div className="card-pf-body">
@@ -139,6 +142,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     clearToggle: () => {
       dispatch(clearToggle())
+    },
+    handleNewQuantChange: (id, update) => {
+      dispatch(handleNewQuantChange(id, update))
     }
   }
 };

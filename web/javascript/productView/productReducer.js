@@ -13,8 +13,14 @@ const productReducer = (state = initialState, action) => {
       state = {...state,};
       state.cart = {...state.cart};
       let product = action.payload;
-      if(state.cart[product.id]) state.cart[product.id].pquant +=1;
-      else state.cart[product.id] = action.payload;
+      if(state.cart[product.id]) {
+        state.cart[product.id].pquant +=1;
+        state.cart[product.id].newQuant +=1;
+      }
+      else {
+        state.cart[product.id] = action.payload;
+        state.cart[product.id].newQuant = action.payload.pquant;
+      }
       break;
     }
     case CART.REMOVE: {
@@ -39,12 +45,20 @@ const productReducer = (state = initialState, action) => {
     }
     case PRODUCTS.SELECT_PRODUCT: {
       state = {...state};
-      state.selectedProduct = action.payload
+      state.selectedProduct = action.payload;
+      break;
+    }
+    case PRODUCTS.HANDLE_NEW_QUANT_CHANGE: {
+      state = {...state};
+      state.cart = {...state.cart};
+      let newQuant = action.payload[1];
+      let id = action.payload[0];
+      state.cart[id].newQuant = newQuant;
       break;
     }
     case PRODUCTS.UPDATE_QUANT: {
-      state = {...state,};
-      state.cart[action.payload.id].pquant = action.payload.quant
+      state = {...state, cart: {...state.cart}};
+      state.cart[action.payload.id].pquant = action.payload.quant;
       break;
     }
   }
