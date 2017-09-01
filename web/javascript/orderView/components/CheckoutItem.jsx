@@ -18,9 +18,13 @@ class CheckoutItem extends Component {
     }
   }
 
+  componentWillReceiveProps(nextProps){
+    this.newQuant = nextProps.quant
+  };
+
   handleQuantChange(event) {
-    var quant = parseInt(event.target.value);
-    this.newQuant = quant != null && quant >= 0 ? quant : null;
+    let quant = parseInt(event.target.value);
+    this.newQuant = quant !== null && quant >= 0 ? quant : null;
   }
 
   handleSelect(event) {
@@ -28,11 +32,10 @@ class CheckoutItem extends Component {
   }
 
   update() {
-    if(this.newQuant != null) {
-      this.props.updateQuant(this.props.id, this.newQuant)
-      this.props.updateTotal((this.newQuant - this.props.quant)
-        * this.props.price);
-      if(this.newQuant == 0) {
+    if(this.newQuant !== null) {
+      this.props.updateQuant(this.props.id, this.newQuant);
+      this.props.updateTotal((this.newQuant - this.props.quant) * this.props.price);
+      if(this.newQuant === 0) {
         this.props.toggleItem(this.props.id, false);
         this.props.removeProduct(this.props.id);
       }
@@ -40,7 +43,8 @@ class CheckoutItem extends Component {
   }
 
   render() {
-    return (
+    const productInfoStyle = {float: 'left'};
+    let itemRow =
       <div className="list-group-item">
         <div className="list-view-pf-main-info">
           <div className="list-view-pf-left">
@@ -49,7 +53,7 @@ class CheckoutItem extends Component {
             </div>
           </div>
           <div className="list-view-pf-body">
-            <div className="list-view-pf-description">
+            <div className="list-view-pf-description" style={productInfoStyle}>
               <div className="list-group-item-heading">
                 <img className="img-thumb" src={"/images/" + this.props.image}/>
               </div>
@@ -60,13 +64,13 @@ class CheckoutItem extends Component {
                 {"$" + this.props.price} x
                 <input type="number" min="0" step="1" defaultValue={this.props.quant} onChange={this.handleQuantChange.bind(this)} />
               </div> </div>
-              <div className="list-view-pf-actions">
-                <button className="btn btn-default" onClick={this.update.bind(this)}>Update</button>
-              </div>
+            <div className="list-view-pf-actions">
+              <button className="btn btn-default" onClick={this.update.bind(this)}>Update</button>
+            </div>
           </div>
         </div>
-      </div>
-    )
+      </div>;
+    return itemRow
   }
 }
 

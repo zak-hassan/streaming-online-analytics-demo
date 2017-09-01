@@ -10,6 +10,7 @@ import { clearToggle } from "../orderActions"
 import { removeProduct } from "../../productView/productActions";
 import { updateQuant } from "../../productView/productActions";
 import CheckoutItem from "../components/CheckoutItem.jsx";
+import { Link } from "react-router-dom";
 
 class OrderView extends Component {
 
@@ -59,9 +60,11 @@ class OrderView extends Component {
 
   render() {
     let items = [];
-    if(this.props.cart) {
-      for(var id in this.props.cart) {
-          var item = this.props.cart[id]
+    let pageContent = null;
+    let cart = this.props.cart;
+    if(Object.keys(cart).length !== 0) {
+      for(let id in cart) {
+          let item = cart[id];
           items.push(
             <CheckoutItem key={id} id={id} item={item} name={item.pname}
             price={item.pprice} category={item.ptype} image={item.image}
@@ -71,23 +74,33 @@ class OrderView extends Component {
             toggleItem={this.props.toggleItem}/>
           );
       }
+      pageContent =
+        <div className="card-pf-body">
+          <div className="list-group list-view-pf list-view-pf-view">
+            {items}
+          </div>
+          <div> {"Total: $" + this.props.total}</div>
+          <button className="btn btn-default" onClick={this.checkout.bind(this)}>Checkout</button>
+          <button className="btn btn-default" onClick={this.deleteSelected.bind(this)}>Delete Selected</button>
+        </div>
+    } else {
+      pageContent =
+        <div className="card-pf-body">
+          <p>There are no items in your cart...</p>
+          <p>Proceed to <Link to="/">Product Selection</Link> to add items to your cart.</p>
+        </div>
     }
     return (
-      <div className="col col-cards-pf container-cards-pf">
+      <div className="col col-cards-pf container-cards-pf fader">
         <div className="cards col-xs-10 col-md-8 ">
           <div className="card-pf card-pf-accented">
-            <div className="card-pf-heading">
+            <div className="card-pf-heading c">
               <h2 className="card-pf-title">
-                Your order
+                Your orders
               </h2>
-            </div>
-            <div className="card-pf-body">
-              <div className="list-group list-view-pf list-view-pf-view">
-                {items}
+              <div className="card-pf-footer">
+                {pageContent}
               </div>
-              <div> {"Total: $" + this.props.total}</div>
-              <button className="btn btn-default" onClick={this.checkout.bind(this)}>Checkout</button>
-              <button className="btn btn-default" onClick={this.deleteSelected.bind(this)}>Delete Selected</button>
             </div>
           </div>
         </div>
