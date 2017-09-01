@@ -13,7 +13,7 @@ export function checkout(cart){
       url: url,
       data: cart,
       success: function() {
-        dispatch(clearProducts)
+        dispatch(clearProducts);
         dispatch(setMessageWithTimeout("Successfully checkedout", "success"));
       },
       error: function() {

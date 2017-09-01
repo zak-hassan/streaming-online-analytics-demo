@@ -1,5 +1,5 @@
 import { QUERY, ROUTES } from "./orderQueryConstants"
-import { setMessage, setMessageWithTimeout } from "../message/messageActions"
+import { setMessageWithTimeout } from "../message/messageActions"
 import $ from "jquery";
 
 export function updateQuery (e) {
@@ -50,7 +50,7 @@ export function handlePostQuery (query){
       }.bind(this),
       error: function () {
         dispatch(setSubmitQueryStatus(false));
-        dispatch(setMessage('Could not successfully send information to server', "danger"));
+        dispatch(setMessageWithTimeout('Could not successfully send information to server', "danger"));
       }.bind(this)
     })
   }
