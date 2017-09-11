@@ -8,5 +8,5 @@ export const ORDER  = {
 };
 
 export const ROUTES = {
-  CHECKOUT_ORDERS: "/mock/checkout"
+  CHECKOUT_ORDERS: "/mock/orderService"
 };
