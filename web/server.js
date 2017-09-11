@@ -25,6 +25,7 @@ app.use(morgan('combined'));
 
 var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8181,
     ip   = process.env.IP   || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0',
+    CustomerID = process.env.CUSTOMERID || '6ea15180-30c8-11e7-8004-9801a798fc8f'
     mongoURL = process.env.OPENSHIFT_MONGODB_DB_URL || process.env.MONGO_URL ,
     datapipelineAPI = process.env.DATAPIPELINE_CAMEL_URL || process.env.OPENSHIFT_DATAPIPELINE_CAMEL_URL || "http://localhost:8080",
     mongoURLLabel = "";
@@ -171,16 +172,43 @@ app.get('/pagecount', function (req, res) {
 
 
 app.get('/mock/orderService',function(req,res){
-var mock_data={"products":[{"id":"1","pname":"bananas","pprice":5.00,
-"ptype":"fruit","image":"bananas.jpg", "pquant":1},{"id":"2","image":"onions.jpg",
-"pname":"onions","pprice":3.00,"ptype":"vegetables", "pquant":1},{"id":"3",
-"image":"milk.jpg","pname":"milk","pprice":4.00,"ptype":"dairy", "pquant":1},
-{"id":"4","image":"cheese.jpg","pname":"cheese","pprice":3.00,
-"ptype":"dairy", "pquant":3},{"id":"5","image":"almonds.jpg","pname":"almonds",
-"pprice":10.00,"ptype":"nuts", "pquant":1}]};
+
+  // TODO: Make a proxy that will fetch product inventory from cassandra
+
+var mock_data={"products":[{"id":"79161a98-30e0-11e7-b4e8-9801a798fc8f",
+"pname":"bananas","pprice":5.00,
+"ptype":"fruit","image":"bananas.jpg", "pquant":1},
+{"id":"7915f0cc-30e0-11e7-91c7-9801a798fc8f","image":"onions.jpg",
+"pname":"onions","pprice":3.00,"ptype":"vegetables", "pquant":1},
+{"id":"79169ffe-30e0-11e7-bf3b-9801a798fc8f",
+"image":"milk.jpg","pname":"milk","pprice":4.00,
+"ptype":"dairy", "pquant":1},
+{"id":"7916d9ba-30e0-11e7-b66f-9801a798fc8f","image":"cheese.jpg",
+"pname":"cheese","pprice":3.00,
+"ptype":"dairy", "pquant":3},
+{"id":"79165436-30e0-11e7-b79a-9801a798fc8f","image":"almonds.jpg",
+"pname":"almonds", "pprice":10.00,"ptype":"nuts", "pquant":1}]};
 
 
   res.send(JSON.stringify(mock_data))
+});
+
+app.post('/mock/orderService', function (req, res) {
+  console.log("Count: " + count)
+  Object.keys(req.body).forEach(function(element, key, _array) {
+
+    //TODO: Make a proxy that will process orders through camel webservice when
+    //      you hit submit.
+
+    console.log("place order for id= "+ req.body[element].id);
+    console.log("place order for pname="+ req.body[element].pname);
+    console.log("place order for pprice="+ req.body[element].pprice);
+    console.log("place order for ptype="+ req.body[element].ptype);
+    console.log("place order for pquant="+ req.body[element].pquant);
+    console.log("place order for newQuant="+ req.body[element].newQuant);
+}, null);
+  var result= {"status":"success"};
+  res.send(result);
 });
 
 // Setting up websockets:
