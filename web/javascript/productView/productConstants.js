@@ -13,6 +13,6 @@ export const PRODUCTS = {
 };
 
 export const ROUTES = {
-  images : "/images/",
-  products: "/mock/orderService"
+  IMAGES : "/images/",
+  PRODUCTS: "/mock/orderService"
 };

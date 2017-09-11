@@ -28,7 +28,7 @@ class Product extends Component {
   }
 
   imageFormatter(filename) {
-    return <img className="img-thumb" src={ROUTES.images + filename}/>;
+    return <img className="img-thumb" src={ROUTES.IMAGES + filename}/>;
   }
 
   render() {
