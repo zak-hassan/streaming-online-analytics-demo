@@ -43,7 +43,7 @@ class ProductView extends Component {
       width: '80px',
       height: '80px',
     };
-    return <img className="img-thumb" src={ROUTES.images+filename} style={imageStyle}/>;
+    return <img className="img-thumb" src={ROUTES.IMAGES+filename} style={imageStyle}/>;
   }
 
   closeModal(){

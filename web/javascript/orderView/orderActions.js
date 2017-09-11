@@ -2,10 +2,10 @@ import $ from "jquery";
 
 import { setMessageWithTimeout } from "../message/messageActions";
 import { clearProducts } from "../productView/productActions";
-import { ORDER } from "./orderConstants";
+import { ORDER, ROUTES } from "./orderConstants";
 
 export function checkout(cart){
-  const url = "/mock/orderService";
+  const url = ROUTES.CHECKOUT_ORDERS;
 
   return(dispatch) => {
     $.ajax({
@@ -13,8 +13,8 @@ export function checkout(cart){
       url: url,
       data: cart,
       success: function() {
-        dispatch(clearProducts);
-        dispatch(setMessageWithTimeout("Successfully checkedout", "success"));
+        dispatch(clearProducts());
+        dispatch(setMessageWithTimeout("Thanks your order is being processed", "success"));
       },
       error: function() {
         dispatch(setMessageWithTimeout("Unable to checkout", "danger"));

@@ -6,3 +6,7 @@ export const ORDER  = {
   REMOVE_SELECTED: "REMOVE_SELECTED",
   CLEAR_TOGGLE: "CLEAR_TOGGLE"
 };
+
+export const ROUTES = {
+  CHECKOUT_ORDERS: "/mock/checkout"
+};

@@ -53,7 +53,7 @@ function parseResponse(result){
 }
 
 export function handleGETProducts(){
-  const url = ROUTES.products;
+  const url = ROUTES.PRODUCTS;
   return (dispatch) => {
     dispatch(setLoadingProducts(true));
     $.ajax({

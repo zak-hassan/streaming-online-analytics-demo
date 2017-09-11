@@ -93,6 +93,7 @@ class OrderView extends Component {
           <p>Proceed to <Link to="/">Product Selection</Link> to add items to your cart.</p>
         </div>
     }
+
     return (
       <div className="col col-cards-pf container-cards-pf fader">
         <div className="cards col-xs-10 col-md-8 ">
