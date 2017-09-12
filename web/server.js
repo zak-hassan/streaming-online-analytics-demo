@@ -170,24 +170,88 @@ app.get('/pagecount', function (req, res) {
   }
 });
 
+app.get('/mock/query',function(req,res){
+
+var mock_data={ "table": [{
+			"id": "1",
+			"pname": "bananas",
+			"pprice": 5,
+			"ptype": "fruit",
+			"image": "bananas.jpg",
+			"pquant": 1
+		},
+		{
+			"id": "2",
+			"image": "onions.jpg",
+			"pname": "onions",
+			"pprice": 3,
+			"ptype": "vegetables",
+			"pquant": 1
+		},
+		{
+			"id": "3",
+			"image": "milk.jpg",
+			"pname": "milk",
+			"pprice": 4,
+			"ptype": "dairy",
+			"pquant": 1
+		}
+	]
+};
+
+res.send(JSON.stringify(mock_data))
+
+
+});
+
 
 app.get('/mock/orderService',function(req,res){
 
   // TODO: Make a proxy that will fetch product inventory from cassandra
 
-var mock_data={"products":[{"id":"79161a98-30e0-11e7-b4e8-9801a798fc8f",
-"pname":"bananas","pprice":5.00,
-"ptype":"fruit","image":"bananas.jpg", "pquant":1},
-{"id":"7915f0cc-30e0-11e7-91c7-9801a798fc8f","image":"onions.jpg",
-"pname":"onions","pprice":3.00,"ptype":"vegetables", "pquant":1},
-{"id":"79169ffe-30e0-11e7-bf3b-9801a798fc8f",
-"image":"milk.jpg","pname":"milk","pprice":4.00,
-"ptype":"dairy", "pquant":1},
-{"id":"7916d9ba-30e0-11e7-b66f-9801a798fc8f","image":"cheese.jpg",
-"pname":"cheese","pprice":3.00,
-"ptype":"dairy", "pquant":3},
-{"id":"79165436-30e0-11e7-b79a-9801a798fc8f","image":"almonds.jpg",
-"pname":"almonds", "pprice":10.00,"ptype":"nuts", "pquant":1}]};
+var mock_data={
+	"products": [{
+			"id": "79161a98-30e0-11e7-b4e8-9801a798fc8f",
+			"pname": "bananas",
+			"pprice": 5.00,
+			"ptype": "fruit",
+			"image": "bananas.jpg",
+			"pquant": 1
+		},
+		{
+			"id": "7915f0cc-30e0-11e7-91c7-9801a798fc8f",
+			"image": "onions.jpg",
+			"pname": "onions",
+			"pprice": 3.00,
+			"ptype": "vegetables",
+			"pquant": 1
+		},
+		{
+			"id": "79169ffe-30e0-11e7-bf3b-9801a798fc8f",
+			"image": "milk.jpg",
+			"pname": "milk",
+			"pprice": 4.00,
+			"ptype": "dairy",
+			"pquant": 1
+		},
+		{
+			"id": "7916d9ba-30e0-11e7-b66f-9801a798fc8f",
+			"image": "cheese.jpg",
+			"pname": "cheese",
+			"pprice": 3.00,
+			"ptype": "dairy",
+			"pquant": 3
+		},
+		{
+			"id": "79165436-30e0-11e7-b79a-9801a798fc8f",
+			"image": "almonds.jpg",
+			"pname": "almonds",
+			"pprice": 10.00,
+			"ptype": "nuts",
+			"pquant": 1
+		}
+	]
+};
 
 
   res.send(JSON.stringify(mock_data))
