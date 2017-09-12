@@ -258,7 +258,6 @@ var mock_data={
 });
 
 app.post('/mock/orderService', function (req, res) {
-  console.log("Count: " + count)
   Object.keys(req.body).forEach(function(element, key, _array) {
 
     //TODO: Make a proxy that will process orders through camel webservice when
