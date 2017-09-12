@@ -170,7 +170,7 @@ app.get('/pagecount', function (req, res) {
   }
 });
 
-app.get('/mock/query',function(req,res){
+app.post('/mock/query',function(req,res){
 
 var mock_data={ "table": [{
 			"id": "1",
