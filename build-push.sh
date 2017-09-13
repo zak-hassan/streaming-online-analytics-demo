@@ -12,4 +12,6 @@ cd ..
 echo "Building: Messaging Service"
 cd messaging-service && ./make-push.sh
 cd ..
+cd python-sparksql-server && ./make-push.sh
 echo "Done!"
+
