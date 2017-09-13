@@ -22,7 +22,7 @@ def sqlserver():
     orders=spark.read.load(hadoopHost + hadoopPath )
     orders.createOrReplaceTempView(dataDict.get("tempTableName"))
     values=spark.sql(dataDict.get("query"))
-    data = request.data
+    data = request.data   
     dataDict = json.loads(data)
     return "SQL: "+ values
 
