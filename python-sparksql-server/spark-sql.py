@@ -16,7 +16,7 @@ def index():
 
 @app.route("/sqlserver",methods=['GET', 'POST'])
 def sqlserver():
-    hadoopHost=os.environ.get('HADOOP_HOST',"hdfs://localhost:9000")
+    hadoopHost=os.environ.get('HDFS_URI',"hdfs://localhost:9000")
     hadoopPath=os.environ.get('HDFS_PATH',"/orders/boston/warehouse")
     spark = SparkSession.builder.appName("PythonPi").getOrCreate()
     orders=spark.read.load(hadoopHost + hadoopPath )
