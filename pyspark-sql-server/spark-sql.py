@@ -5,6 +5,7 @@ import json
 from flask import Flask
 from flask import request
 from pyspark.sql import SparkSession
+from flask_prometheus import monitor
 
 
 app = Flask(__name__)
@@ -16,18 +17,21 @@ def index():
 
 @app.route("/sqlserver",methods=['GET', 'POST'])
 def sqlserver():
-    hadoopHost=os.environ.get('HDFS_URI',"hdfs://localhost:9000")
-    hadoopPath=os.environ.get('HDFS_PATH',"/orders/boston/warehouse")
-    spark = SparkSession.builder.appName("PythonPi").getOrCreate()
-    orders=spark.read.load(hadoopHost + hadoopPath )
-    orders.createOrReplaceTempView(dataDict.get("tempTableName"))
-    values=spark.sql(dataDict.get("query"))
+    # Setting up hadoop env
+    hadoopHost=os.environ.get('HDFS_URI',"hdfs://et10.et.eng.bos.redhat.com:9000")
+    hadoopPath=os.environ.get('HDFS_PATH',"/orders/boston/warehouse/rocknroll.parquet")
+    # Getting query passed in ex:  {'query': 'select * from orders'}
     data = request.data   
     dataDict = json.loads(data)
-    return "SQL: "+ values
+    spark = SparkSession.builder.appName("PythonPi").getOrCreate()
+    orders=spark.read.load(hadoopHost + hadoopPath )
+    orders.createOrReplaceTempView("orders")
+    values=spark.sql(dataDict.get("query"))
+    return json.dumps(values.toJSON().collect()).replace('\\"',"\"")
 
 
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 9999))
+    monitor(app, port=18081)
     app.run(host='0.0.0.0', port=port)
