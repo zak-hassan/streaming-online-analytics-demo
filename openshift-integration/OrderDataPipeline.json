@@ -129,11 +129,6 @@
         "required": true,
         "value": "10.15.17.78"
       },{
-        "name": "CASSANDRA_HOST",
-        "displayName": "Cassandra Service Name",
-        "required": true,
-        "value": "127.0.0.1"
-        },{
           "name": "TOPIC",
           "displayName": "Kafka Topic Name",
           "required": true,

@@ -2,11 +2,12 @@ FROM docker.io/radanalyticsio/openshift-spark
 MAINTAINER Zak Hassan zak.hassan1010@gmail.com
 ENV SPARK_MASTER_URL "local[*]"
 ADD ./spark-sql.py   /opt
+ADD ./requirements.txt /opt
 ADD ./entrypoint.sh   /opt
 USER root
 
 RUN yum install python-pip -y 
-RUN pip install flask
+RUN pip install -r requirements.txt
 USER 1001
 WORKDIR /opt
 EXPOSE 8080
