@@ -262,13 +262,43 @@ app.post('/mock/orderService', function (req, res) {
 
     //TODO: Make a proxy that will process orders through camel webservice when
     //      you hit submit.
+/*
+    String id;
+    Date created;
+    String customerId;
+    String productId;
+    int productQuantity;
+     */
 
     console.log("place order for id= "+ req.body[element].id);
-    console.log("place order for pname="+ req.body[element].pname);
-    console.log("place order for pprice="+ req.body[element].pprice);
-    console.log("place order for ptype="+ req.body[element].ptype);
-    console.log("place order for pquant="+ req.body[element].pquant);
-    console.log("place order for newQuant="+ req.body[element].newQuant);
+    console.log("place order for pname= "+ req.body[element].pname);
+    console.log("place order for pprice= "+ req.body[element].pprice);
+    console.log("place order for ptype= "+ req.body[element].ptype);
+    console.log("place order for pquant= "+ req.body[element].pquant);
+    // console.log("place order for newQuant= "+ req.body[element].newQuant);
+
+    var options = {
+      method: 'POST',
+      uri: datapipelineAPI + '/order/create',
+      json: true,
+      body: { customerId: CustomerID , productId: req.body[element].id, productQuantity: parseInt(req.body[element].pquant) }
+  };
+
+  promise(options)
+      .then(function(json) {
+
+          console.log(json);
+          res.send(json);
+      }).catch(function(err) {
+          console.log(err);
+          res.send(err);
+      });
+    // console.log("place order for id= "+ req.body[element].id);
+    // console.log("place order for pname="+ req.body[element].pname);
+    // console.log("place order for pprice="+ req.body[element].pprice);
+    // console.log("place order for ptype="+ req.body[element].ptype);
+    // console.log("place order for pquant="+ req.body[element].pquant);
+    // console.log("place order for newQuant="+ req.body[element].newQuant);
 }, null);
   var result= {"status":"success"};
   res.send(result);
