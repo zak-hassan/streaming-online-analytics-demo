@@ -25,9 +25,10 @@ app.use(morgan('combined'));
 
 var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8181,
     ip   = process.env.IP   || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0',
-    CustomerID = process.env.CUSTOMERID || '6ea15180-30c8-11e7-8004-9801a798fc8f'
+    CustomerID = process.env.CUSTOMERID || '6ea15180-30c8-11e7-8004-9801a798fc8f',
+    sqlServerIP= process.env.SQLSERVERIP || 'http://localhost:9999'
     mongoURL = process.env.OPENSHIFT_MONGODB_DB_URL || process.env.MONGO_URL ,
-    datapipelineAPI = process.env.DATAPIPELINE_CAMEL_URL || process.env.OPENSHIFT_DATAPIPELINE_CAMEL_URL || "http://localhost:8080",
+    datapipelineAPI = process.env.DATAPIPELINE_CAMEL_URL || process.env.OPENSHIFT_DATAPIPELINE_CAMEL_URL || "http://pipeline.10.19.47.15.xip.io",
     mongoURLLabel = "";
 
 if (mongoURL == null && process.env.DATABASE_SERVICE_NAME) {
@@ -262,14 +263,6 @@ app.post('/mock/orderService', function (req, res) {
 
     //TODO: Make a proxy that will process orders through camel webservice when
     //      you hit submit.
-/*
-    String id;
-    Date created;
-    String customerId;
-    String productId;
-    int productQuantity;
-     */
-
     console.log("place order for id= "+ req.body[element].id);
     console.log("place order for pname= "+ req.body[element].pname);
     console.log("place order for pprice= "+ req.body[element].pprice);
@@ -293,16 +286,71 @@ app.post('/mock/orderService', function (req, res) {
           console.log(err);
           res.send(err);
       });
-    // console.log("place order for id= "+ req.body[element].id);
-    // console.log("place order for pname="+ req.body[element].pname);
-    // console.log("place order for pprice="+ req.body[element].pprice);
-    // console.log("place order for ptype="+ req.body[element].ptype);
-    // console.log("place order for pquant="+ req.body[element].pquant);
-    // console.log("place order for newQuant="+ req.body[element].newQuant);
+    
 }, null);
   var result= {"status":"success"};
   res.send(result);
 });
+
+
+app.post('/mock/sqlserver',function(req,res){
+
+console.log(req.body);  
+
+  var options = {
+    method: 'POST',
+    uri: sqlServerIP + '/sqlserver',
+    json: true,
+    body: req.body
+};
+promise(options)
+    .then(function(json) {
+
+        console.log(json);
+        res.send(json);
+    }).catch(function(err) {
+        console.log(err);
+        res.send(err);
+    });
+  
+ 
+// var result= {"status":"success"};
+// res.send(result);
+
+// var mock_data={ "table": [{
+//   "id": "1",
+//   "pname": "bananas",
+//   "pprice": 5,
+//   "ptype": "fruit",
+//   "image": "bananas.jpg",
+//   "pquant": 1
+// },
+// {
+//   "id": "2",
+//   "image": "onions.jpg",
+//   "pname": "onions",
+//   "pprice": 3,
+//   "ptype": "vegetables",
+//   "pquant": 1
+// },
+// {
+//   "id": "3",
+//   "image": "milk.jpg",
+//   "pname": "milk",
+//   "pprice": 4,
+//   "ptype": "dairy",
+//   "pquant": 1
+// }
+// ]
+// };
+
+// res.send(JSON.stringify(mock_data));
+
+
+});
+
+
+
 
 // Setting up websockets:
 
