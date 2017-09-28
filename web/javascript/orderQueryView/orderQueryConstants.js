@@ -6,5 +6,5 @@ export const QUERY = {
 };
 
 export const ROUTES = {
-  SUBMIT_QUERY: "/mock/query"
+  SUBMIT_QUERY: "/mock/sqlserver"
 };
