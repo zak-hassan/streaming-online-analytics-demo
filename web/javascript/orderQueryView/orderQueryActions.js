@@ -1,5 +1,5 @@
 import { QUERY, ROUTES } from "./orderQueryConstants"
-import { setMessageWithTimeout } from "../message/messageActions"
+import { setMessageWithTimeout } from "../lib/message/messageActions"
 import $ from "jquery";
 
 export function updateQuery (e) {

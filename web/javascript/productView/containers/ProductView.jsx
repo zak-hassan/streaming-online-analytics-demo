@@ -6,11 +6,13 @@ import {
   handleGETProducts,
   selectProduct,
 } from '../productActions'
-import { setMessageWithTimeout } from '../../message/messageActions'
+import { setMessageWithTimeout } from '../../lib/message/messageActions'
 import Products from '../components/products.jsx';
-import { toggleCartModal } from '../../modal/modalActions';
-import ModalComponentDialog from "../../modal/components/ModalWindow.jsx";
+import ModalComponentDialog from "../../lib/modal/containers/ModalWindow.jsx";
 import { ROUTES } from '../productConstants'
+import ButtonModal from "../../lib/modal/containers/ButtonModal.jsx";
+import { MODALS } from "../../configs.jsx";
+
 
 class ProductView extends Component {
   static get propTypes(){
@@ -19,10 +21,8 @@ class ProductView extends Component {
       handleGETProducts: PropTypes.func,
       loadingProducts: PropTypes.bool,
       addProduct: PropTypes.func,
-      toggleModal: PropTypes.func,
       selectedProduct: PropTypes.object,
       selectProduct: PropTypes.func,
-      modalState: PropTypes.bool,
       products: PropTypes.object,
       setMessageWithTimeout: PropTypes.func,
     }
@@ -30,7 +30,6 @@ class ProductView extends Component {
 
   constructor(){
     super();
-    this.closeModal = this.closeModal.bind(this);
     this.addToCart = this.addToCart.bind(this);
   }
 
@@ -46,21 +45,17 @@ class ProductView extends Component {
     return <img className="img-thumb" src={ROUTES.IMAGES+filename} style={imageStyle}/>;
   }
 
-  closeModal(){
-    this.props.toggleModal();
-  }
-
   addToCart(){
     this.props.addProduct(this.props.selectedProduct);
-    this.closeModal();
     this.props.setMessageWithTimeout("Successfully added item to cart", "success");
   }
 
   createModalFooter(){
+    let addButton = <button type="button" className="btn btn-secondary" data-dismiss="modal" onClick={this.addToCart}>Add to Cart</button>;
+    let closeButton = <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>;
     return (
       <div className="modal-footer">
-        <button type="button" className="btn btn-secondary" data-dismiss="modal" onClick={this.addToCart}>Add to Cart</button>
-        <button type="button" className="btn btn-secondary" data-dismiss="modal" onClick={this.closeModal}>Close</button>
+        <ButtonModal mid={MODALS.PRODUCT_MODAL} content={addButton}/> <ButtonModal mid={MODALS.PRODUCT_MODAL}  content={closeButton}/>
       </div>
     )
   }
@@ -92,27 +87,17 @@ class ProductView extends Component {
 
     return (
       <ModalComponentDialog
-        isOpen={this.props.modalState}
-        toggleModal={this.props.toggleModal}
+        mid={MODALS.PRODUCT_MODAL}
         modalTitle="Would you like to add this item to your cart?"
         modalContent={content}
         modalFooter={this.createModalFooter()}/>
     )
   }
 
-  createFooter(){
-    return (
-      <a className="card-pf-link-with-icon" >
-        <span className="pficon pficon-help"/>
-        Help
-      </a>
-    )
-  }
-
   createProducts(){
     return (
       <Products products={this.props.products}
-                toggleModal={this.props.toggleModal}
+                mid={MODALS.PRODUCT_MODAL}
                 selectProduct={this.props.selectProduct}/>
     )
   }
@@ -129,13 +114,10 @@ class ProductView extends Component {
       <div className="col col-cards-pf container-cards-pf fader">
         <div className="cards col-xs-10 col-md-8 ">
           <div className="card-pf card-pf-accented">
-              {title}
+            {title}
             <div className="card-pf-footer ">
               {content}
               {this.createModal()}
-            </div>
-            <div className="card-pf-footer card-pf">
-              {this.createFooter()}
             </div>
           </div>
         </div>
@@ -150,7 +132,6 @@ const mapStateToProps = (state) => {
     cart: state.productReducer.cart,
     products: state.productReducer.products,
     loadingProducts: state.productReducer.loadingProducts,
-    modalState: state.modalReducer.add_to_cart_modal,
     selectedProduct: state.productReducer.selectedProduct,
   }
 };
@@ -165,9 +146,6 @@ const mapDispatchToProps = (dispatch) => {
     },
     handleGETProducts: () => {
       dispatch(handleGETProducts())
-    },
-    toggleModal: () => {
-      dispatch(toggleCartModal())
     },
     selectProduct: (product) => {
       dispatch(selectProduct(product))

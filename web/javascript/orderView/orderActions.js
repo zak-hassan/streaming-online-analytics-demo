@@ -1,6 +1,6 @@
 import $ from "jquery";
 
-import { setMessageWithTimeout } from "../message/messageActions";
+import { setMessageWithTimeout } from "../lib/message/messageActions";
 import { clearProducts } from "../productView/productActions";
 import { ORDER, ROUTES } from "./orderConstants";
 
