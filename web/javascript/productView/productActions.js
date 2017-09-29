@@ -1,6 +1,6 @@
 import { CART, PRODUCTS, ROUTES } from "./productConstants"
 import $ from "jquery";
-import { setMessage } from "../message/messageActions";
+import { setMessage } from "../lib/message/messageActions";
 
 export function addProduct (product) {
   return {

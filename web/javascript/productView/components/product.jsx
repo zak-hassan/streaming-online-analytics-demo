@@ -1,13 +1,13 @@
 import React,{ Component } from 'react';
 import PropTypes from 'prop-types';
-import ButtonComponent from '../../modal/components/ButtonModal.jsx';
+import ButtonComponent from '../../lib/modal/containers/ButtonModal.jsx';
 import { ROUTES } from '../productConstants'
 
 class Product extends Component {
   static get propTypes() {
     return {
       product: PropTypes.object,
-      toggleModal: PropTypes.func,
+      mid: PropTypes.string,
       selectedProduct: PropTypes.object,
       selectProduct: PropTypes.func,
     }
@@ -15,12 +15,7 @@ class Product extends Component {
 
   constructor(){
     super();
-    this.toggleModal = this.toggleModal.bind(this);
     this.selectProduct = this.selectProduct.bind(this);
-  }
-
-  toggleModal(){
-    this.props.toggleModal();
   }
 
   selectProduct(){
@@ -47,7 +42,7 @@ class Product extends Component {
             <span className="card-pf-item-text">{product.pprice}</span>
           </div>
           <div className="card-pf-item">
-            <ButtonComponent toggleModal={this.props.toggleModal} content={cartButtonContent}/>
+            <ButtonComponent mid={this.props.mid} content={cartButtonContent}/>
           </div>
         </div>
         <p className="card-pf-info text-center">Category: {product.ptype}</p>

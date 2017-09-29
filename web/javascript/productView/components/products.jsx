@@ -6,7 +6,7 @@ class Products extends Component{
   static get propTypes() {
     return {
       products: PropTypes.object,
-      toggleModal: PropTypes.func,
+      mid: PropTypes.string,
       selectProduct: PropTypes.func,
     }
   }
@@ -18,7 +18,7 @@ class Products extends Component{
         <div key={i} className="col-xs-12 col-sm-6 col-md-4 col-lg-3">
           <div className="card-pf card-pf-view card-pf-view-select">
             <Product product={this.props.products[productID]}
-                     toggleModal={this.props.toggleModal}
+                     mid={this.props.mid}
                      selectProduct={this.props.selectProduct}/>
           </div>
         </div>
