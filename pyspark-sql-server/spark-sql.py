@@ -27,7 +27,9 @@ def sqlserver():
     orders=spark.read.load(hadoopHost + hadoopPath )
     orders.createOrReplaceTempView("orders")
     values=spark.sql(dataDict.get("query"))
-    return json.dumps(values.toJSON().collect()).replace('\\"',"\"").replace("}\"","}").replace("\"{","{")
+    table={}
+    table["table"]=json.loads(json.dumps(values.toJSON().collect()).replace('\\"',"\"").replace("}\"","}").replace("\"{","{"))
+    return json.dumps(table)
 
  
 
